@@ -291,13 +291,38 @@ ul {
     pointer-events: none;
 }
 
-.hero-content {
+/* Hero Background Pattern */
+.hero-bg-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle at 20% 50%, rgba(229,20,20,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(41,128,185,0.06) 0%, transparent 40%),
+        radial-gradient(circle at 60% 80%, rgba(229,20,20,0.05) 0%, transparent 40%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Hero Two-Column Layout */
+.hero-layout {
     position: relative;
     z-index: 2;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 120px 24px 80px;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    padding: 140px 24px 100px;
+}
+
+.hero-text {
+    text-align: left;
+}
+
+.text-nowrap {
+    white-space: nowrap;
 }
 
 .hero-badge {
@@ -317,7 +342,7 @@ ul {
 
 .hero h1 {
     font-family: var(--font-heading);
-    font-size: 3.8rem;
+    font-size: 3.5rem;
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 24px;
@@ -330,21 +355,17 @@ ul {
 }
 
 .hero-subtitle {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: rgba(255,255,255,0.75);
     line-height: 1.8;
-    margin-bottom: 40px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom: 36px;
 }
 
 .hero-actions {
     display: flex;
     gap: 16px;
-    justify-content: center;
     flex-wrap: wrap;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .hero-availability {
@@ -356,6 +377,87 @@ ul {
 .hero-availability i {
     color: var(--color-red);
     margin-right: 6px;
+}
+
+/* Hero Visual (Right Column) */
+.hero-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.hero-stats-card {
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-md);
+    padding: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.hero-stat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: var(--color-white);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.hero-stat i {
+    font-size: 1.3rem;
+    color: var(--color-red-light);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(229,20,20,0.12);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.hero-stat strong {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 800;
+    display: block;
+}
+
+.hero-features {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.hero-feature-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50px;
+    color: var(--color-white);
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all var(--transition);
+}
+
+.hero-feature-pill:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+}
+
+.hero-feature-pill i {
+    color: var(--color-red-light);
+    font-size: 0.85rem;
 }
 
 .hero-scroll {
@@ -1496,7 +1598,12 @@ ul {
    RESPONSIVE DESIGN
    =================================== */
 @media (max-width: 1024px) {
+    .hero-layout { grid-template-columns: 1fr; gap: 40px; padding: 130px 24px 80px; }
+    .hero-text { text-align: center; }
+    .hero-actions { justify-content: center; }
     .hero h1 { font-size: 3rem; }
+    .hero-stats-card { max-width: 500px; margin: 0 auto; }
+    .hero-features { justify-content: center; }
     .section-header h2 { font-size: 2rem; }
     .services-grid { grid-template-columns: 1fr 1fr; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1558,10 +1665,12 @@ ul {
         text-align: center;
     }
 
-    .hero { min-height: 100vh; }
+    .hero { min-height: auto; }
     .hero h1 { font-size: 2.4rem; }
     .hero-subtitle { font-size: 1rem; }
-    .hero-content { padding: 100px 16px 60px; }
+    .hero-layout { padding: 110px 16px 60px; }
+    .hero-stats-card { grid-template-columns: 1fr; gap: 16px; padding: 24px; }
+    .hero-features { flex-direction: column; align-items: center; }
 
     .values-grid { grid-template-columns: 1fr; }
     .services-grid { grid-template-columns: 1fr; }
@@ -1589,6 +1698,8 @@ ul {
 
 @media (max-width: 480px) {
     .hero h1 { font-size: 2rem; }
+    .hero-stat strong { font-size: 1.1rem; }
+    .hero-feature-pill { font-size: 0.75rem; padding: 8px 16px; }
     .section-header h2 { font-size: 1.6rem; }
     .stat-number { font-size: 2.2rem; }
     .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
