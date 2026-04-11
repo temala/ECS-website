@@ -1,0 +1,8 @@
+{
+  "name": "ecs-email-api",
+  "version": "1.0.0",
+  "description": "Azure Function to send emails via Azure Communication Services",
+  "dependencies": {
+    "@azure/communication-email": "^1.0.0"
+  }
+}

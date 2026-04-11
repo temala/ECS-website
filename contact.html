@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contactez ECS - Transport express et logistique sécurisée. Siège social à Thiais, agences à Paris, Lyon et Marseille. Disponible 24h/24, 7j/7.">
+    <title>Contact | ECS – Transport & Logistique Sécurisée</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="ECS - Engagement Confiance Sécurité" class="logo-img">
+            </a>
+            <nav class="nav" id="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="services.html" class="nav-link">Nos Services</a></li>
+                    <li><a href="about.html" class="nav-link">À Propos</a></li>
+                    <li><a href="contact.html" class="nav-link active">Contact</a></li>
+                    <li><a href="devis.html" class="nav-link btn-nav-quote">Demande de Devis</a></li>
+                    <li><a href="https://extranet.ecs75.fr/Login?returnUrl=%2F" class="nav-link btn-nav-extranet" target="_blank" rel="noopener noreferrer"><i class="fas fa-lock"></i> Extranet</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="breadcrumb"><a href="index.html">Accueil</a> <i class="fas fa-chevron-right"></i> Contact</div>
+            <h1>Nous <span class="text-gold">Contacter</span></h1>
+            <p>Nos équipes sont à votre disposition pour répondre à toutes vos questions.</p>
+        </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="section contact-section">
+        <div class="container">
+            <div class="contact-layout">
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper" data-animate>
+                    <h2>Envoyez-nous un message</h2>
+                    <p>Ce formulaire est à votre disposition. Nous ne manquerons pas de vous répondre dans les plus brefs délais.</p>
+                    <form class="contact-form" id="contact-form" method="POST">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Votre Nom <span class="required">*</span></label>
+                                <input type="text" id="name" name="name" required placeholder="Nom complet">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Votre Email <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" required placeholder="email@exemple.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Téléphone</label>
+                            <input type="tel" id="phone" name="phone" placeholder="01 00 00 00 00">
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Objet <span class="required">*</span></label>
+                            <input type="text" id="subject" name="subject" required placeholder="Objet de votre message">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Votre Message <span class="required">*</span></label>
+                            <textarea id="message" name="message" rows="6" required placeholder="Décrivez votre besoin..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i> Envoyer le Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="contact-info-wrapper" data-animate>
+                    <!-- Head Office -->
+                    <div class="contact-card">
+                        <div class="contact-card-header">
+                            <i class="fas fa-building"></i>
+                            <h3>Siège Social</h3>
+                        </div>
+                        <div class="contact-card-body">
+                            <p><i class="fas fa-location-dot"></i> 1 Boulevard de L'Europe<br>Tour Europa, 94320 Thiais, France</p>
+                            <p><i class="fas fa-phone"></i> <a href="tel:+33170036000">01 70 03 60 00</a></p>
+                            <p><i class="fas fa-phone"></i> <a href="tel:+33147400000">01 47 40 00 00</a></p>
+                            <p><i class="fas fa-envelope"></i> <a href="mailto:contact@ecs75.fr">contact@ecs75.fr</a></p>
+                        </div>
+                    </div>
+
+                    <!-- Regional Offices -->
+                    <div class="contact-card">
+                        <div class="contact-card-header">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <h3>Nos Agences</h3>
+                        </div>
+                        <div class="contact-card-body">
+                            <div class="agency">
+                                <h4><i class="fas fa-map-pin"></i> Paris – Région Parisienne</h4>
+                                <p>94 Thiais – Tél : <a href="tel:+33147400000">01 47 40 00 00</a></p>
+                                <p>ECS Exploitation – Tél : <a href="tel:+33170036000">01 70 03 60 00</a></p>
+                            </div>
+                            <div class="agency">
+                                <h4><i class="fas fa-map-pin"></i> Lyon – Région Lyonnaise</h4>
+                                <p>ECS 69 – Tél : <a href="tel:+33170036000">01 70 03 60 00</a></p>
+                            </div>
+                            <div class="agency">
+                                <h4><i class="fas fa-map-pin"></i> Marseille – Bouches-du-Rhône</h4>
+                                <p>ECS 13 – Tél : <a href="tel:+33170036000">01 70 03 60 00</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Availability -->
+                    <div class="contact-card highlight">
+                        <div class="contact-card-header">
+                            <i class="fas fa-clock"></i>
+                            <h3>Disponibilité</h3>
+                        </div>
+                        <div class="contact-card-body">
+                            <p class="availability"><strong>24h/24 – 7j/7</strong></p>
+                            <p>Le transport sur-mesure au quotidien</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map -->
+    <section class="map-section">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2630.1!2d2.3917!3d48.7647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e671e5e5e5e5e5%3A0x0!2s1+Boulevard+de+l&#39;Europe%2C+94320+Thiais!5e0!3m2!1sfr!2sfr!4v1700000000000!5m2!1sfr!2sfr"
+            width="100%"
+            height="400"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="ECS - 1 Boulevard de L'Europe, Tour Europa, 94320 Thiais">
+        </iframe>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-about">
+                    <div class="footer-logo"><img src="assets/logo.png" alt="ECS" class="footer-logo-img"></div>
+                    <p>Le transport sur-mesure au quotidien. Spécialiste du transport express et de la logistique sécurisée en France et en Europe.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Accès Rapide</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="services.html">Nos Services</a></li>
+                        <li><a href="about.html">À Propos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="services.html">Transport Express</a></li>
+                        <li><a href="services.html">Livraison Sécurisée</a></li>
+                        <li><a href="services.html">Navettes Courrier</a></li>
+                        <li><a href="devis.html">Demande de Devis</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-location-dot"></i> 1 Boulevard de L'Europe<br>Tour Europa, 94320 Thiais, France</li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:+33170036000">01 70 03 60 00</a></li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:+33147400000">01 47 40 00 00</a></li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:contact@ecs75.fr">contact@ecs75.fr</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ECS – Engagement &middot; Confiance &middot; Sécurité. Tous droits réservés.</p>
+                <div class="footer-links">
+                    <a href="https://extranet.ecs75.fr/Login?returnUrl=%2F" target="_blank" rel="noopener noreferrer">Extranet</a>
+                    <a href="http://149.202.68.114:8083" target="_blank" rel="noopener noreferrer">Suivi de Colis</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

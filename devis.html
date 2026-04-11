@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Demandez un devis express pour vos besoins de transport et logistique sécurisée. ECS vous répond rapidement, 24h/24, 7j/7.">
+    <title>Demande de Devis | ECS – Transport & Logistique Sécurisée</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="assets/logo.png" alt="ECS - Engagement Confiance Sécurité" class="logo-img">
+            </a>
+            <nav class="nav" id="nav">
+                <ul class="nav-list">
+                    <li><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li><a href="services.html" class="nav-link">Nos Services</a></li>
+                    <li><a href="about.html" class="nav-link">À Propos</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                    <li><a href="devis.html" class="nav-link btn-nav-quote active">Demande de Devis</a></li>
+                    <li><a href="https://extranet.ecs75.fr/Login?returnUrl=%2F" class="nav-link btn-nav-extranet" target="_blank" rel="noopener noreferrer"><i class="fas fa-lock"></i> Extranet</a></li>
+                </ul>
+            </nav>
+            <button class="menu-toggle" id="menu-toggle" aria-label="Ouvrir le menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="breadcrumb"><a href="index.html">Accueil</a> <i class="fas fa-chevron-right"></i> Demande de Devis</div>
+            <h1>Demande de <span class="text-gold">Devis Express</span></h1>
+            <p>Remplissez le formulaire ci-dessous et recevez votre devis dans les plus brefs délais.</p>
+        </div>
+    </section>
+
+    <!-- Quote Form -->
+    <section class="section quote-section">
+        <div class="container">
+            <div class="quote-layout">
+                <div class="quote-form-wrapper" data-animate>
+                    <h2>Décrivez votre besoin</h2>
+                    <p>Renseignez les informations ci-dessous pour nous permettre d'établir un devis adapté à votre demande.</p>
+                    <form class="contact-form quote-form" id="quote-form" method="POST">
+                        <div class="form-section-title"><i class="fas fa-user"></i> Vos Coordonnées</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="q-company">Société <span class="required">*</span></label>
+                                <input type="text" id="q-company" name="company" required placeholder="Nom de votre société">
+                            </div>
+                            <div class="form-group">
+                                <label for="q-name">Nom & Prénom <span class="required">*</span></label>
+                                <input type="text" id="q-name" name="name" required placeholder="Nom complet">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="q-email">Email <span class="required">*</span></label>
+                                <input type="email" id="q-email" name="email" required placeholder="email@exemple.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="q-phone">Téléphone <span class="required">*</span></label>
+                                <input type="tel" id="q-phone" name="phone" required placeholder="01 00 00 00 00">
+                            </div>
+                        </div>
+
+                        <div class="form-section-title"><i class="fas fa-truck"></i> Détails du Transport</div>
+                        <div class="form-group">
+                            <label for="q-service">Type de Service <span class="required">*</span></label>
+                            <select id="q-service" name="service" required>
+                                <option value="" disabled selected>Choisissez un service</option>
+                                <option value="express">Transport Express</option>
+                                <option value="securise">Livraison Sécurisée</option>
+                                <option value="navette">Navette Courrier</option>
+                                <option value="logistique">Logistique & Stockage</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="q-origin">Lieu de Départ</label>
+                                <input type="text" id="q-origin" name="origin" placeholder="Ville ou adresse de départ">
+                            </div>
+                            <div class="form-group">
+                                <label for="q-destination">Lieu d'Arrivée</label>
+                                <input type="text" id="q-destination" name="destination" placeholder="Ville ou adresse d'arrivée">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="q-weight">Poids Estimé</label>
+                                <input type="text" id="q-weight" name="weight" placeholder="Ex : 15 kg">
+                            </div>
+                            <div class="form-group">
+                                <label for="q-date">Date Souhaitée</label>
+                                <input type="date" id="q-date" name="date">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="q-details">Détails Complémentaires</label>
+                            <textarea id="q-details" name="details" rows="5" placeholder="Décrivez votre besoin en détail : nature du colis, contraintes particulières, fréquence..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-paper-plane"></i> Envoyer ma Demande de Devis
+                        </button>
+                    </form>
+                </div>
+
+                <div class="quote-info" data-animate>
+                    <div class="contact-card highlight">
+                        <div class="contact-card-header">
+                            <i class="fas fa-bolt"></i>
+                            <h3>Réponse Rapide</h3>
+                        </div>
+                        <div class="contact-card-body">
+                            <p>Nos équipes traitent votre demande et vous recontactent dans les plus brefs délais.</p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-card-header">
+                            <i class="fas fa-phone"></i>
+                            <h3>Par Téléphone</h3>
+                        </div>
+                        <div class="contact-card-body">
+                            <p>Pour une réponse immédiate :</p>
+                            <p class="big-phone"><a href="tel:+33170036000">01 70 03 60 00</a></p>
+                            <p class="big-phone"><a href="tel:+33147400000">01 47 40 00 00</a></p>
+                            <p class="availability"><strong>24h/24 – 7j/7</strong></p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-card-header">
+                            <i class="fas fa-envelope"></i>
+                            <h3>Par Email</h3>
+                        </div>
+                        <div class="contact-card-body">
+                            <p><a href="mailto:contact@ecs75.fr">contact@ecs75.fr</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-card">
+                        <div class="contact-card-header">
+                            <i class="fas fa-globe"></i>
+                            <h3>Accès Client</h3>
+                        </div>
+                        <div class="contact-card-body">
+                            <p>Accédez à votre espace client pour gérer vos envois et suivre vos colis.</p>
+                            <a href="https://extranet.ecs75.fr/Login?returnUrl=%2F" class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer"><i class="fas fa-lock"></i> Extranet</a>
+                            <a href="http://149.202.68.114:8083" class="btn btn-outline btn-sm" target="_blank" rel="noopener noreferrer"><i class="fas fa-box"></i> Suivi Colis</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-about">
+                    <div class="footer-logo"><img src="assets/logo.png" alt="ECS" class="footer-logo-img"></div>
+                    <p>Le transport sur-mesure au quotidien. Spécialiste du transport express et de la logistique sécurisée en France et en Europe.</p>
+                    <div class="footer-social">
+                        <a href="#" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Accès Rapide</h4>
+                    <ul>
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="services.html">Nos Services</a></li>
+                        <li><a href="about.html">À Propos</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Nos Services</h4>
+                    <ul>
+                        <li><a href="services.html">Transport Express</a></li>
+                        <li><a href="services.html">Livraison Sécurisée</a></li>
+                        <li><a href="services.html">Navettes Courrier</a></li>
+                        <li><a href="devis.html">Demande de Devis</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-location-dot"></i> 1 Boulevard de L'Europe<br>Tour Europa, 94320 Thiais, France</li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:+33170036000">01 70 03 60 00</a></li>
+                        <li><i class="fas fa-phone"></i> <a href="tel:+33147400000">01 47 40 00 00</a></li>
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:contact@ecs75.fr">contact@ecs75.fr</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ECS – Engagement &middot; Confiance &middot; Sécurité. Tous droits réservés.</p>
+                <div class="footer-links">
+                    <a href="https://extranet.ecs75.fr/Login?returnUrl=%2F" target="_blank" rel="noopener noreferrer">Extranet</a>
+                    <a href="http://149.202.68.114:8083" target="_blank" rel="noopener noreferrer">Suivi de Colis</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

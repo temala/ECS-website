@@ -1,0 +1,57 @@
+name: Deploy ECS Website
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  # ─── Pre-flight ────────────────────────────────────────────────
+  check-secrets:
+    name: Check Credentials
+    runs-on: ubuntu-latest
+    outputs:
+      has-swa: ${{ steps.check.outputs.has-swa }}
+    steps:
+      - name: Check configured secrets
+        id: check
+        run: |
+          echo "has-swa=${{ secrets.AZURE_SWA_DEPLOYMENT_TOKEN != '' }}" >> "$GITHUB_OUTPUT"
+
+  # ─── Build & Deploy Static Site + API ──────────────────────────
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+    needs: check-secrets
+    if: needs.check-secrets.outputs.has-swa == 'true'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install API dependencies
+        run: npm ci
+        working-directory: api
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_SWA_DEPLOYMENT_TOKEN }}
+          action: upload
+          app_location: "/"
+          api_location: "api"
+          skip_app_build: true
+          skip_api_build: false
+        env:
+          ACS_CONNECTION_STRING: ${{ secrets.ACS_CONNECTION_STRING }}
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
