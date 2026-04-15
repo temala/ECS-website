@@ -19,6 +19,7 @@
         <div class="container header-container">
             <a href="index.html" class="logo">
                 <img src="assets/logo.png" alt="ECS - Engagement Confiance Sécurité" class="logo-img">
+                <span class="logo-tagline">À VOTRE SERVICE !</span>
             </a>
             <nav class="nav" id="nav">
                 <ul class="nav-list">
@@ -41,53 +42,39 @@
     <!-- Hero Section -->
     <section class="hero" id="hero">
         <div class="hero-bg-pattern"></div>
-        <div class="container hero-layout">
-            <div class="hero-text">
-                <div class="hero-badge">Transport & Logistique Sécurisée</div>
-                <h1>Le transport <span class="text-gold text-nowrap">sur-mesure</span> au quotidien</h1>
-                <p class="hero-subtitle">Spécialiste reconnu du transport express et de la logistique sécurisée en France et en Europe, ECS vous accompagne avec engagement, confiance et sécurité.</p>
-                <div class="hero-actions">
-                    <a href="devis.html" class="btn btn-primary"><i class="fas fa-file-alt"></i> Demander un Devis</a>
-                    <a href="services.html" class="btn btn-outline"><i class="fas fa-arrow-right"></i> Découvrir nos Services</a>
-                </div>
-                <div class="hero-availability">
-                    <i class="fas fa-clock"></i> Disponible <strong>24h/24 &middot; 7j/7</strong>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="hero-image">
-                    <img src="assets/images/fleet.jpg" alt="Flotte de véhicules ECS" loading="eager">
-                    <div class="hero-image-overlay">
-                        <i class="fas fa-shield-halved"></i> Flotte sécurisée & géolocalisée 24h/24
-                    </div>
-                </div>
-                <div class="hero-stats-card">
-                    <div class="hero-stat">
-                        <i class="fas fa-building"></i>
-                        <div><strong>5</strong> Agences en France</div>
-                    </div>
-                    <div class="hero-stat">
-                        <i class="fas fa-road"></i>
-                        <div><strong>5M+</strong> km parcourus / an</div>
-                    </div>
-                    <div class="hero-stat">
-                        <i class="fas fa-earth-europe"></i>
-                        <div><strong>20+</strong> Frontières traversées</div>
-                    </div>
-                    <div class="hero-stat">
-                        <i class="fas fa-users"></i>
-                        <div><strong>150K+</strong> Clients livrés / an</div>
-                    </div>
-                </div>
-                <div class="hero-features">
-                    <div class="hero-feature-pill"><i class="fas fa-truck-fast"></i> Express J+1</div>
-                    <div class="hero-feature-pill"><i class="fas fa-shield-halved"></i> Véhicules Sécurisés</div>
-                    <div class="hero-feature-pill"><i class="fas fa-satellite-dish"></i> Tracking Temps Réel</div>
-                </div>
-            </div>
+        <div class="container hero-centered">
+            <h1>ECS : le transporteur express <span class="text-gold text-nowrap">qui fait la différence !</span></h1>
+            <p class="hero-subtitle">Spécialiste reconnu du transport express et de la logistique sécurisée en France et en Europe, ECS vous accompagne avec engagement, confiance et sécurité.</p>
+            <a href="services.html" class="btn btn-primary btn-hero"><i class="fas fa-arrow-right"></i> En savoir plus</a>
         </div>
-        <div class="hero-scroll">
-            <a href="#values"><i class="fas fa-chevron-down"></i></a>
+    </section>
+    <!-- Tracking Form Card -->
+    <div class="tracking-card">
+        <h2>Où est mon colis ?</h2>
+        <form class="tracking-form" id="tracking-form">
+            <input type="text" placeholder="Entrez votre numéro de colis" id="tracking-number" required>
+            <button type="submit" class="btn btn-primary btn-full">Suivre</button>
+        </form>
+        <a href="contact.html" class="tracking-help">Besoin d'aide ?</a>
+    </div>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="stats-bar-grid">
+                <div class="stats-bar-item">
+                    <strong>5</strong> agences en France
+                </div>
+                <div class="stats-bar-item">
+                    <strong>5M+</strong> km parcourus / an
+                </div>
+                <div class="stats-bar-item">
+                    <strong>20+</strong> frontières traversées
+                </div>
+                <div class="stats-bar-item">
+                    <strong>150K+</strong> clients livrés / an
+                </div>
+            </div>
         </div>
     </section>
 
@@ -143,7 +130,7 @@
                 </div>
                 <div class="service-card" data-animate>
                     <div class="service-card-img">
-                        <img src="assets/images/navette-courrier.jpg" alt="Navettes Courrier ECS" loading="lazy">
+                        <img src="assets/images/delivery-man.jpg" alt="Navettes Courrier ECS" loading="lazy">
                         <div class="service-img-overlay"></div>
                     </div>
                     <div class="service-card-body">
@@ -181,28 +168,12 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="stats" id="stats">
-        <div class="stats-overlay"></div>
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item" data-animate>
-                    <div class="stat-number" data-count="5">0</div>
-                    <div class="stat-label">Agences en France</div>
-                </div>
-                <div class="stat-item" data-animate>
-                    <div class="stat-number">5M+</div>
-                    <div class="stat-label">Kilomètres parcourus / an</div>
-                </div>
-                <div class="stat-item" data-animate>
-                    <div class="stat-number" data-count="20">0</div>
-                    <div class="stat-suffix">+</div>
-                    <div class="stat-label">Frontières traversées</div>
-                </div>
-                <div class="stat-item" data-animate>
-                    <div class="stat-number">150K+</div>
-                    <div class="stat-label">Clients livrés par an</div>
-                </div>
+    <!-- Full-width Fleet Image Section -->
+    <section class="fleet-banner">
+        <img src="assets/images/delivery-van.jpg" alt="Flotte de véhicules ECS" loading="lazy">
+        <div class="fleet-banner-overlay">
+            <div class="container">
+                <p><i class="fas fa-shield-halved"></i> Flotte sécurisée & géolocalisée 24h/24</p>
             </div>
         </div>
     </section>
@@ -271,7 +242,7 @@
                     </div>
                 </div>
                 <div class="fleet-item" data-animate>
-                    <img src="assets/images/transport-express.jpg" alt="Livraison express ECS" loading="lazy">
+                    <img src="assets/images/delivery-door.jpg" alt="Livraison express ECS" loading="lazy">
                     <div class="fleet-item-overlay">
                         <h4>Livraison Express</h4>
                         <p>Distribution J+1 partout en France</p>
@@ -285,10 +256,10 @@
                     </div>
                 </div>
                 <div class="fleet-item" data-animate>
-                    <img src="assets/images/consulting.jpg" alt="Consulting logistique ECS" loading="lazy">
+                    <img src="assets/images/customer-delivery.jpg" alt="Client satisfait ECS" loading="lazy">
                     <div class="fleet-item-overlay">
-                        <h4>Équipe Dédiée</h4>
-                        <p>Accompagnement personnalisé 24h/24</p>
+                        <h4>Clients Satisfaits</h4>
+                        <p>Un service de proximité reconnu</p>
                     </div>
                 </div>
             </div>
