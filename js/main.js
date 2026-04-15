@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initScrollAnimations();
     initForms();
+    initTrackingForm();
 });
 
 /* --- Header Scroll Effect --- */
@@ -179,6 +180,20 @@ function showFormError(form, message) {
     setTimeout(() => {
         error.remove();
     }, 8000);
+}
+
+/* --- Tracking Form --- */
+function initTrackingForm() {
+    const form = document.getElementById('tracking-form');
+    if (!form) return;
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const trackingNumber = document.getElementById('tracking-number').value.trim();
+        if (trackingNumber) {
+            window.open('http://149.202.68.114:8083/Home/Track?colisId=' + encodeURIComponent(trackingNumber), '_blank');
+        }
+    });
 }
 
 /* --- Smooth Scroll for Anchor Links --- */
