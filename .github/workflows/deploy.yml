@@ -38,6 +38,12 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
       - name: Install API dependencies
         run: npm ci
         working-directory: api
@@ -47,7 +53,7 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_SWA_DEPLOYMENT_TOKEN }}
           action: upload
-          app_location: "/"
+          app_location: "dist"
           api_location: "api"
           skip_app_build: true
           skip_api_build: false
