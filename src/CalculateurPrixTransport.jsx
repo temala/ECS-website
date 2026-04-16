@@ -233,356 +233,257 @@ export default function CalculateurPrixTransport() {
     return { transport, attente, heures, totalHT, tva, totalTTC };
   }, [destination, vehicule, heuresAttente]);
 
+  const S = {
+    card: { background: "#fff", borderRadius: 12, padding: 24, boxShadow: "0 4px 16px rgba(21,42,74,0.08)", border: "1px solid #dce1e8", marginBottom: 24 },
+    h2: { fontFamily: "'Montserrat', sans-serif", color: "#152a4a", fontSize: 18, fontWeight: 600, marginBottom: 16 },
+    label: { color: "#5a6577", fontSize: 13 },
+    value: { color: "#152a4a", fontWeight: 600, fontSize: 13, textAlign: "right" },
+    row: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 },
+    navy: "#152a4a",
+    red: "#e51414",
+    gray: "#5a6577",
+    lightGray: "#8c95a4",
+    border: "#dce1e8",
+    light: "#f4f6f9",
+  };
+
   return (
-    <div className="py-4" style={{ fontFamily: "'Open Sans', sans-serif", color: "#2d3748" }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Colonne gauche : sélections */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Véhicules */}
-            <section className="bg-white rounded-xl p-6" style={{ boxShadow: "0 4px 16px rgba(21,42,74,0.08)", border: "1px solid #dce1e8" }}>
-              <h2 className="text-lg font-semibold mb-4" style={{ fontFamily: "'Montserrat', sans-serif", color: "#152a4a" }}>
-                1. Choisissez votre véhicule
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                {VEHICULES.map((v) => {
-                  const actif = v.id === vehiculeId;
-                  return (
-                    <button
-                      key={v.id}
-                      type="button"
-                      onClick={() => setVehiculeId(v.id)}
-                      className="text-left rounded-xl p-4 transition-all"
-                      style={{
-                        border: actif ? "2px solid #e51414" : "2px solid #dce1e8",
-                        background: actif ? "rgba(229,20,20,0.04)" : "#fff",
-                        boxShadow: actif ? "0 4px 20px rgba(229,20,20,0.12)" : "none",
-                      }}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-3xl">{v.icone}</span>
-                        {actif && (
-                          <span className="text-xs font-semibold px-2 py-1 rounded-full" style={{ background: "#e51414", color: "#fff" }}>
-                            Sélectionné
-                          </span>
-                        )}
-                      </div>
-                      <div className="font-bold text-sm mb-2" style={{ fontFamily: "'Montserrat', sans-serif", color: "#152a4a" }}>
-                        {v.nom}
-                      </div>
-                      <ul className="text-xs space-y-1" style={{ color: "#5a6577" }}>
-                        <li>
-                          <span className="font-medium">Charge :</span> {v.charge}
-                        </li>
-                        <li>
-                          <span className="font-medium">Volume :</span> {v.volume}
-                        </li>
-                        <li>
-                          <span className="font-medium">Palettes :</span>{" "}
-                          {v.palettes}
-                        </li>
-                        <li>
-                          <span className="font-medium">Dimensions :</span>{" "}
-                          {v.dimensions}
-                        </li>
-                        <li className="pt-1 mt-1" style={{ borderTop: "1px solid #dce1e8" }}>
-                          <span className="font-medium">Attente :</span>{" "}
-                          {v.attente} €HT/h
-                        </li>
-                      </ul>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
+    <div style={{ fontFamily: "'Open Sans', sans-serif", color: "#2d3748" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 24 }} className="ecs-calc-grid">
+        <style>{`
+          @media (min-width: 1024px) {
+            .ecs-calc-grid { grid-template-columns: 2fr 1fr !important; }
+          }
+          @media (min-width: 768px) {
+            .ecs-vehicles-grid { grid-template-columns: repeat(3, 1fr) !important; }
+          }
+          .ecs-calc-grid input[type=number]::-webkit-inner-spin-button,
+          .ecs-calc-grid input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+          .ecs-calc-grid input[type=number] { -moz-appearance: textfield; }
+          .ecs-suggestion-btn:hover { background: ${S.light} !important; }
+          .ecs-stepper-btn:hover { background: ${S.light} !important; }
+        `}</style>
 
-            {/* Destination */}
-            <section className="bg-white rounded-xl p-6" style={{ boxShadow: "0 4px 16px rgba(21,42,74,0.08)", border: "1px solid #dce1e8" }}>
-              <h2 className="text-lg font-semibold mb-4" style={{ fontFamily: "'Montserrat', sans-serif", color: "#152a4a" }}>
-                2. Choisissez votre destination
-              </h2>
-
-              {/* Filtres */}
-              <div className="flex flex-wrap gap-2 mb-4">
-                {[
-                  { id: "tout", label: "Toutes" },
-                  { id: "france", label: "France" },
-                  { id: "europe", label: "Europe" },
-                ].map((f) => (
+        {/* Colonne gauche */}
+        <div>
+          {/* Véhicules */}
+          <div style={S.card}>
+            <h2 style={S.h2}>1. Choisissez votre véhicule</h2>
+            <div className="ecs-vehicles-grid" style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
+              {VEHICULES.map((v) => {
+                const actif = v.id === vehiculeId;
+                return (
                   <button
-                    key={f.id}
+                    key={v.id}
                     type="button"
-                    onClick={() => setFiltre(f.id)}
-                    className="px-4 py-1.5 rounded-full text-sm font-medium transition-colors"
+                    onClick={() => setVehiculeId(v.id)}
                     style={{
-                      background: filtre === f.id ? "#152a4a" : "#f4f6f9",
-                      color: filtre === f.id ? "#fff" : "#5a6577",
+                      textAlign: "left",
+                      borderRadius: 12,
+                      padding: 16,
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      border: actif ? `2px solid ${S.red}` : `2px solid ${S.border}`,
+                      background: actif ? "rgba(229,20,20,0.04)" : "#fff",
+                      boxShadow: actif ? "0 4px 20px rgba(229,20,20,0.12)" : "0 1px 3px rgba(21,42,74,0.06)",
                     }}
                   >
-                    {f.label}
-                  </button>
-                ))}
-                <span className="ml-auto text-xs self-center" style={{ color: "#8c95a4" }}>
-                  {destinationsFiltrees.length} destination
-                  {destinationsFiltrees.length > 1 ? "s" : ""}
-                </span>
-              </div>
-
-              {/* Champ de recherche */}
-              <div className="relative">
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => {
-                    setQuery(e.target.value);
-                    setShowSuggestions(true);
-                  }}
-                  onFocus={() => setShowSuggestions(true)}
-                  onBlur={() =>
-                    setTimeout(() => setShowSuggestions(false), 150)
-                  }
-                  placeholder="Rechercher une ville, un département ou un pays..."
-                  className="w-full px-4 py-3 pl-10 rounded-lg text-sm focus:outline-none focus:ring-2"
-                  style={{ border: "1px solid #dce1e8", fontFamily: "'Open Sans', sans-serif" }}
-                />
-                <svg
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                  style={{ color: "#8c95a4" }}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"
-                  />
-                </svg>
-
-                {showSuggestions && suggestions.length > 0 && (
-                  <ul className="absolute z-20 w-full mt-1 max-h-72 overflow-auto bg-white rounded-lg" style={{ border: "1px solid #dce1e8", boxShadow: "0 10px 30px rgba(21,42,74,0.1)" }}>
-                    {suggestions.map((d) => (
-                      <li key={d.id}>
-                        <button
-                          type="button"
-                          onMouseDown={(e) => {
-                            e.preventDefault();
-                            setDestination(d);
-                            setQuery(d.ville);
-                            setShowSuggestions(false);
-                          }}
-                          className="w-full text-left px-4 py-2 hover:bg-[#f4f6f9]"
-                          style={{ borderBottom: "1px solid #f4f6f9" }}
-                        >
-                          <div className="text-sm font-medium" style={{ color: "#152a4a" }}>
-                            {d.ville}
-                            {d.corse && (
-                              <span className="ml-2 text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full">
-                                Ferry inclus
-                              </span>
-                            )}
-                            {d.ferrySupplement && (
-                              <span className="ml-2 text-xs bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full">
-                                Ferry en supplément
-                              </span>
-                            )}
-                          </div>
-                          <div className="text-xs" style={{ color: "#8c95a4" }}>{d.zone}</div>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {showSuggestions && query && suggestions.length === 0 && (
-                  <div className="absolute z-20 w-full mt-1 bg-white rounded-lg p-4 text-sm" style={{ border: "1px solid #dce1e8", boxShadow: "0 10px 30px rgba(21,42,74,0.1)", color: "#5a6577" }}>
-                    Aucune destination trouvée pour « {query} »
-                  </div>
-                )}
-              </div>
-
-              {destination && (
-                <div className="mt-4 p-3 rounded-lg flex items-center justify-between" style={{ background: "rgba(21,42,74,0.04)", border: "1px solid rgba(21,42,74,0.15)" }}>
-                  <div>
-                    <div className="text-xs font-medium" style={{ color: "#e51414" }}>
-                      Destination sélectionnée
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                      <span style={{ fontSize: 28 }}>{v.icone}</span>
+                      {actif && (
+                        <span style={{ fontSize: 11, fontWeight: 600, background: S.red, color: "#fff", padding: "3px 10px", borderRadius: 20 }}>
+                          Sélectionné
+                        </span>
+                      )}
                     </div>
-                    <div className="text-sm font-semibold" style={{ color: "#152a4a" }}>
-                      {destination.ville}{" "}
-                      <span className="text-xs font-normal" style={{ color: "#5a6577" }}>
-                        ({destination.zone})
-                      </span>
+                    <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 13, color: S.navy, marginBottom: 8 }}>
+                      {v.nom}
                     </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setDestination(null);
-                      setQuery("");
-                    }}
-                    className="text-xl leading-none" style={{ color: "#8c95a4" }}
-                    aria-label="Supprimer la destination"
-                  >
-                    ×
+                    <div style={{ fontSize: 12, color: S.gray, lineHeight: 1.8 }}>
+                      <div><span style={{ fontWeight: 500 }}>Charge :</span> {v.charge}</div>
+                      <div><span style={{ fontWeight: 500 }}>Volume :</span> {v.volume}</div>
+                      <div><span style={{ fontWeight: 500 }}>Palettes :</span> {v.palettes}</div>
+                      <div><span style={{ fontWeight: 500 }}>Dimensions :</span> {v.dimensions}</div>
+                      <div style={{ borderTop: `1px solid ${S.border}`, paddingTop: 4, marginTop: 4 }}>
+                        <span style={{ fontWeight: 500 }}>Attente :</span> {v.attente} €HT/h
+                      </div>
+                    </div>
                   </button>
-                </div>
-              )}
-            </section>
-
-            {/* Heures d'attente */}
-            <section className="bg-white rounded-xl p-6" style={{ boxShadow: "0 4px 16px rgba(21,42,74,0.08)", border: "1px solid #dce1e8" }}>
-              <h2 className="text-lg font-semibold mb-4" style={{ fontFamily: "'Montserrat', sans-serif", color: "#152a4a" }}>
-                3. Heures d'attente / manutention
-              </h2>
-              <div className="flex items-center gap-4">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setHeuresAttente(Math.max(0, heuresAttente - 1))
-                  }
-                  className="w-10 h-10 rounded-lg font-bold text-lg transition-colors"
-                  style={{ border: "1px solid #dce1e8", color: "#152a4a" }}
-                >
-                  −
-                </button>
-                <input
-                  type="number"
-                  min="0"
-                  max="10"
-                  value={heuresAttente}
-                  onChange={(e) => {
-                    const v = Math.max(
-                      0,
-                      Math.min(10, Number(e.target.value) || 0)
-                    );
-                    setHeuresAttente(v);
-                  }}
-                  className="w-20 h-10 text-center rounded-lg text-lg font-semibold focus:outline-none focus:ring-2"
-                  style={{ border: "1px solid #dce1e8", color: "#152a4a" }}
-                />
-                <button
-                  type="button"
-                  onClick={() =>
-                    setHeuresAttente(Math.min(10, heuresAttente + 1))
-                  }
-                  className="w-10 h-10 rounded-lg font-bold text-lg transition-colors"
-                  style={{ border: "1px solid #dce1e8", color: "#152a4a" }}
-                >
-                  +
-                </button>
-                <span className="text-sm" style={{ color: "#5a6577" }}>
-                  heure{heuresAttente > 1 ? "s" : ""} × {vehicule.attente} €HT ={" "}
-                  <span className="font-semibold" style={{ color: "#152a4a" }}>
-                    {fmtEuro(heuresAttente * vehicule.attente)}
-                  </span>
-                </span>
-              </div>
-              <p className="text-xs mt-2" style={{ color: "#8c95a4" }}>
-                Facturation à l'heure entamée (de 0 à 10 h).
-              </p>
-            </section>
+                );
+              })}
+            </div>
           </div>
 
-          {/* Colonne droite : récapitulatif */}
-          <aside className="lg:col-span-1">
-            <div className="sticky top-4 bg-white rounded-xl overflow-hidden" style={{ boxShadow: "0 10px 30px rgba(21,42,74,0.1)", border: "1px solid #dce1e8" }}>
-              <div className="p-5" style={{ background: "linear-gradient(135deg, #152a4a, #1e3a5f)", color: "#fff" }}>
-                <h2 className="text-lg font-bold mb-1" style={{ fontFamily: "'Montserrat', sans-serif" }}>Récapitulatif</h2>
-                <p className="text-xs" style={{ color: "rgba(255,255,255,0.7)" }}>
-                  Détail de votre estimation
-                </p>
-              </div>
+          {/* Destination */}
+          <div style={S.card}>
+            <h2 style={S.h2}>2. Choisissez votre destination</h2>
 
-              <div className="p-5 space-y-4 text-sm">
-                <div className="flex justify-between">
-                  <span style={{ color: "#5a6577" }}>Véhicule</span>
-                  <span className="font-semibold text-right" style={{ color: "#152a4a" }}>
-                    {vehicule.nom}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span style={{ color: "#5a6577" }}>Destination</span>
-                  <span className="font-semibold text-right" style={{ color: "#152a4a" }}>
-                    {destination ? destination.ville : "—"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span style={{ color: "#5a6577" }}>Heures d'attente</span>
-                  <span className="font-semibold" style={{ color: "#152a4a" }}>
-                    {heuresAttente} h
-                  </span>
-                </div>
-
-                {destination && destination.corse && (
-                  <div className="bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-lg p-3">
-                    🛳️ Prix du ferry inclus (Corse)
-                  </div>
-                )}
-                {destination && destination.ferrySupplement && (
-                  <div className="bg-orange-50 border border-orange-200 text-orange-800 text-xs rounded-lg p-3">
-                    ⚠️ Ferry en supplément (non inclus)
-                  </div>
-                )}
-
-                {calcul ? (
-                  <>
-                    <hr style={{ borderColor: "#dce1e8" }} />
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <span style={{ color: "#5a6577" }}>Transport HT</span>
-                        <span className="font-medium" style={{ color: "#152a4a" }}>
-                          {fmtEuro(calcul.transport)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span style={{ color: "#5a6577" }}>
-                          Attente ({calcul.heures} × {vehicule.attente} €)
-                        </span>
-                        <span className="font-medium" style={{ color: "#152a4a" }}>
-                          {fmtEuro(calcul.attente)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between pt-2" style={{ borderTop: "1px solid #dce1e8" }}>
-                        <span className="font-semibold" style={{ color: "#152a4a" }}>
-                          Total HT
-                        </span>
-                        <span className="font-bold" style={{ color: "#152a4a" }}>
-                          {fmtEuro(calcul.totalHT)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span style={{ color: "#5a6577" }}>TVA 20 %</span>
-                        <span className="font-medium" style={{ color: "#152a4a" }}>
-                          {fmtEuro(calcul.tva)}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="rounded-xl p-4 flex justify-between items-center" style={{ background: "#e51414", color: "#fff" }}>
-                      <span className="text-sm font-medium">Total TTC</span>
-                      <span className="text-2xl font-extrabold" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                        {fmtEuro(calcul.totalTTC)}
-                      </span>
-                    </div>
-                    <p className="text-xs italic text-center" style={{ color: "#8c95a4" }}>
-                      Prestations Porteur / SEMI : sur devis uniquement.
-                    </p>
-                  </>
-                ) : (
-                  <div className="rounded-lg p-4 text-center text-sm" style={{ background: "#f4f6f9", border: "1px solid #dce1e8", color: "#5a6577" }}>
-                    Sélectionnez une destination pour afficher le calcul.
-                  </div>
-                )}
-              </div>
+            {/* Filtres */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16, alignItems: "center" }}>
+              {[
+                { id: "tout", label: "Toutes" },
+                { id: "france", label: "France" },
+                { id: "europe", label: "Europe" },
+              ].map((f) => (
+                <button
+                  key={f.id}
+                  type="button"
+                  onClick={() => setFiltre(f.id)}
+                  style={{
+                    padding: "6px 16px",
+                    borderRadius: 20,
+                    fontSize: 13,
+                    fontWeight: 500,
+                    border: "none",
+                    cursor: "pointer",
+                    transition: "all 0.2s",
+                    background: filtre === f.id ? S.navy : S.light,
+                    color: filtre === f.id ? "#fff" : S.gray,
+                  }}
+                >
+                  {f.label}
+                </button>
+              ))}
+              <span style={{ marginLeft: "auto", fontSize: 12, color: S.lightGray }}>
+                {destinationsFiltrees.length} destination{destinationsFiltrees.length > 1 ? "s" : ""}
+              </span>
             </div>
-          </aside>
+
+            {/* Recherche */}
+            <div style={{ position: "relative" }}>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => { setQuery(e.target.value); setShowSuggestions(true); }}
+                onFocus={() => setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                placeholder="Rechercher une ville, un département ou un pays..."
+                style={{
+                  width: "100%",
+                  padding: "12px 16px 12px 40px",
+                  border: `1px solid ${S.border}`,
+                  borderRadius: 8,
+                  fontSize: 14,
+                  fontFamily: "'Open Sans', sans-serif",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+              />
+              <svg style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", width: 16, height: 16, color: S.lightGray }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+              </svg>
+
+              {showSuggestions && suggestions.length > 0 && (
+                <ul style={{ position: "absolute", zIndex: 20, width: "100%", marginTop: 4, maxHeight: 280, overflowY: "auto", background: "#fff", border: `1px solid ${S.border}`, borderRadius: 8, boxShadow: "0 10px 30px rgba(21,42,74,0.12)", listStyle: "none", padding: 0 }}>
+                  {suggestions.map((d) => (
+                    <li key={d.id}>
+                      <button
+                        type="button"
+                        className="ecs-suggestion-btn"
+                        onMouseDown={(e) => { e.preventDefault(); setDestination(d); setQuery(d.ville); setShowSuggestions(false); }}
+                        style={{ width: "100%", textAlign: "left", padding: "10px 16px", border: "none", borderBottom: `1px solid ${S.light}`, background: "transparent", cursor: "pointer", fontFamily: "'Open Sans', sans-serif" }}
+                      >
+                        <div style={{ fontSize: 14, fontWeight: 500, color: S.navy }}>
+                          {d.ville}
+                          {d.corse && <span style={{ marginLeft: 8, fontSize: 11, background: "#fef3c7", color: "#92400e", padding: "2px 8px", borderRadius: 10 }}>Ferry inclus</span>}
+                          {d.ferrySupplement && <span style={{ marginLeft: 8, fontSize: 11, background: "#ffedd5", color: "#9a3412", padding: "2px 8px", borderRadius: 10 }}>Ferry en supplément</span>}
+                        </div>
+                        <div style={{ fontSize: 12, color: S.lightGray }}>{d.zone}</div>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {showSuggestions && query && suggestions.length === 0 && (
+                <div style={{ position: "absolute", zIndex: 20, width: "100%", marginTop: 4, background: "#fff", border: `1px solid ${S.border}`, borderRadius: 8, boxShadow: "0 10px 30px rgba(21,42,74,0.12)", padding: 16, fontSize: 14, color: S.gray }}>
+                  Aucune destination trouvée pour « {query} »
+                </div>
+              )}
+            </div>
+
+            {destination && (
+              <div style={{ marginTop: 16, padding: 12, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(21,42,74,0.04)", border: "1px solid rgba(21,42,74,0.15)" }}>
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 500, color: S.red }}>Destination sélectionnée</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: S.navy }}>
+                    {destination.ville} <span style={{ fontSize: 12, fontWeight: 400, color: S.gray }}>({destination.zone})</span>
+                  </div>
+                </div>
+                <button type="button" onClick={() => { setDestination(null); setQuery(""); }} style={{ color: S.lightGray, fontSize: 20, border: "none", background: "none", cursor: "pointer", lineHeight: 1 }} aria-label="Supprimer">×</button>
+              </div>
+            )}
+          </div>
+
+          {/* Heures d'attente */}
+          <div style={S.card}>
+            <h2 style={S.h2}>3. Heures d'attente / manutention</h2>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+              <button type="button" className="ecs-stepper-btn" onClick={() => setHeuresAttente(Math.max(0, heuresAttente - 1))} style={{ width: 40, height: 40, borderRadius: 8, border: `1px solid ${S.border}`, background: "#fff", color: S.navy, fontWeight: 700, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
+              <input
+                type="number" min="0" max="10" value={heuresAttente}
+                onChange={(e) => setHeuresAttente(Math.max(0, Math.min(10, Number(e.target.value) || 0)))}
+                style={{ width: 64, height: 40, textAlign: "center", borderRadius: 8, border: `1px solid ${S.border}`, fontSize: 18, fontWeight: 600, color: S.navy, outline: "none", fontFamily: "'Open Sans', sans-serif" }}
+              />
+              <button type="button" className="ecs-stepper-btn" onClick={() => setHeuresAttente(Math.min(10, heuresAttente + 1))} style={{ width: 40, height: 40, borderRadius: 8, border: `1px solid ${S.border}`, background: "#fff", color: S.navy, fontWeight: 700, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
+              <span style={{ fontSize: 14, color: S.gray }}>
+                heure{heuresAttente > 1 ? "s" : ""} × {vehicule.attente} €HT = <span style={{ fontWeight: 600, color: S.navy }}>{fmtEuro(heuresAttente * vehicule.attente)}</span>
+              </span>
+            </div>
+            <p style={{ fontSize: 12, color: S.lightGray, marginTop: 8 }}>Facturation à l'heure entamée (de 0 à 10 h).</p>
+          </div>
         </div>
 
-        <p className="text-xs text-center mt-6" style={{ color: "#8c95a4" }}>
-          Tarifs indicatifs HT — TVA 20 % — {DESTINATIONS.length} destinations
-          disponibles.
-        </p>
+        {/* Colonne droite : récapitulatif */}
+        <div>
+          <div style={{ position: "sticky", top: 100, background: "#fff", borderRadius: 12, overflow: "hidden", boxShadow: "0 10px 30px rgba(21,42,74,0.1)", border: `1px solid ${S.border}` }}>
+            <div style={{ padding: 20, background: "linear-gradient(135deg, #152a4a, #1e3a5f)", color: "#fff" }}>
+              <h2 style={{ fontFamily: "'Montserrat', sans-serif", fontSize: 18, fontWeight: 700, marginBottom: 4 }}>Récapitulatif</h2>
+              <p style={{ fontSize: 12, color: "rgba(255,255,255,0.7)" }}>Détail de votre estimation</p>
+            </div>
+
+            <div style={{ padding: 20 }}>
+              <div style={S.row}><span style={S.label}>Véhicule</span><span style={S.value}>{vehicule.nom}</span></div>
+              <div style={S.row}><span style={S.label}>Destination</span><span style={S.value}>{destination ? destination.ville : "—"}</span></div>
+              <div style={S.row}><span style={S.label}>Heures d'attente</span><span style={S.value}>{heuresAttente} h</span></div>
+
+              {destination && destination.corse && (
+                <div style={{ background: "#fef3c7", border: "1px solid #fde68a", color: "#92400e", fontSize: 12, borderRadius: 8, padding: 12, marginBottom: 8 }}>🛳️ Prix du ferry inclus (Corse)</div>
+              )}
+              {destination && destination.ferrySupplement && (
+                <div style={{ background: "#ffedd5", border: "1px solid #fed7aa", color: "#9a3412", fontSize: 12, borderRadius: 8, padding: 12, marginBottom: 8 }}>⚠️ Ferry en supplément (non inclus)</div>
+              )}
+
+              {calcul ? (
+                <>
+                  <hr style={{ border: "none", borderTop: `1px solid ${S.border}`, margin: "16px 0" }} />
+                  <div style={S.row}><span style={S.label}>Transport HT</span><span style={{ ...S.value, fontWeight: 500 }}>{fmtEuro(calcul.transport)}</span></div>
+                  <div style={S.row}><span style={S.label}>Attente ({calcul.heures} × {vehicule.attente} €)</span><span style={{ ...S.value, fontWeight: 500 }}>{fmtEuro(calcul.attente)}</span></div>
+                  <div style={{ ...S.row, paddingTop: 12, borderTop: `1px solid ${S.border}`, marginTop: 8 }}>
+                    <span style={{ color: S.navy, fontWeight: 600, fontSize: 14 }}>Total HT</span>
+                    <span style={{ color: S.navy, fontWeight: 700, fontSize: 14 }}>{fmtEuro(calcul.totalHT)}</span>
+                  </div>
+                  <div style={S.row}><span style={S.label}>TVA 20 %</span><span style={{ ...S.value, fontWeight: 500 }}>{fmtEuro(calcul.tva)}</span></div>
+
+                  <div style={{ background: S.red, color: "#fff", borderRadius: 12, padding: 16, display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 16 }}>
+                    <span style={{ fontSize: 14, fontWeight: 500 }}>Total TTC</span>
+                    <span style={{ fontSize: 24, fontWeight: 800, fontFamily: "'Montserrat', sans-serif" }}>{fmtEuro(calcul.totalTTC)}</span>
+                  </div>
+                  <p style={{ fontSize: 12, color: S.lightGray, fontStyle: "italic", textAlign: "center", marginTop: 12 }}>Prestations Porteur / SEMI : sur devis uniquement.</p>
+                </>
+              ) : (
+                <div style={{ background: S.light, border: `1px solid ${S.border}`, borderRadius: 8, padding: 16, textAlign: "center", fontSize: 14, color: S.gray, marginTop: 16 }}>
+                  Sélectionnez une destination pour afficher le calcul.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
+
+      <p style={{ fontSize: 12, color: S.lightGray, textAlign: "center", marginTop: 24 }}>
+        Tarifs indicatifs HT — TVA 20 % — {DESTINATIONS.length} destinations disponibles.
+      </p>
     </div>
   );
 }
