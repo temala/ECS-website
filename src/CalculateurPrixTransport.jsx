@@ -168,6 +168,117 @@ const DESTINATIONS = DESTINATIONS_RAW.map((d, i) => ({
   ferrySupplement: /\+ FERRY/i.test(d[1]) && d[0] !== "2A - 2B - CORSE",
 }));
 
+// ===== Intra-IDF (livraison en Île-de-France) =====
+// Départements IDF. Certains sont découpés en zones (A/B/C).
+const IDF_DEPARTEMENTS = [
+  { code: "75", nom: "Paris", zones: null },
+  { code: "77", nom: "Seine-et-Marne", zones: ["A", "B", "C"] },
+  { code: "78", nom: "Yvelines", zones: ["A", "B"] },
+  { code: "91", nom: "Essonne", zones: ["A", "B"] },
+  { code: "92", nom: "Hauts-de-Seine", zones: null },
+  { code: "93", nom: "Seine-Saint-Denis", zones: null },
+  { code: "94", nom: "Val-de-Marne", zones: null },
+  { code: "95", nom: "Val-d'Oise", zones: ["A", "B"] },
+];
+
+const IDF_CODES = IDF_DEPARTEMENTS.map((d) => d.code);
+
+// Ordre de la matrice tel que sur la plaquette
+const IDF_MATRIX_ORDER = [
+  "75", "94", "92", "93", "91A", "91B",
+  "78A", "78B", "95A", "95B", "77A", "77B", "77C",
+];
+
+// Matrices triangulaires supérieures (diagonale incluse). Base avant +10€.
+// Chaque ligne i démarre à la colonne i (diagonale).
+const IDF_BREAK_ROWS = [
+  [55, 60, 60, 60, 65, 85, 75, 85, 75, 85, 75, 90, 100], // 75
+  [60, 60, 60, 65, 85, 75, 85, 75, 85, 75, 90, 100],     // 94
+  [55, 60, 70, 90, 75, 85, 75, 85, 85, 95, 105],         // 92
+  [55, 65, 85, 75, 85, 70, 80, 80, 90, 100],             // 93
+  [55, 75, 75, 85, 75, 85, 90, 95, 100],                 // 91A
+  [80, 100, 105, 110, 115, 85, 95, 105],                 // 91B
+  [65, 75, 75, 100, 90, 100, 110],                       // 78A
+  [80, 100, 95, 100, 110, 120],                          // 78B
+  [65, 90, 90, 95, 105],                                 // 95A
+  [90, 100, 105, 120],                                   // 95B
+  [65, 85, 95],                                          // 77A
+  [90, 100],                                             // 77B
+  [105],                                                 // 77C
+];
+
+const IDF_FOURGON_ROWS = [
+  [65, 70, 70, 70, 80, 95, 85, 100, 85, 95, 85, 100, 115], // 75
+  [70, 70, 70, 80, 95, 85, 100, 85, 95, 85, 100, 115],     // 94
+  [80, 80, 90, 95, 85, 95, 85, 95, 90, 105, 120],          // 92
+  [70, 85, 95, 85, 100, 85, 100, 85, 100, 115],            // 93
+  [80, 90, 85, 100, 85, 100, 95, 110, 115],                // 91A
+  [95, 105, 115, 120, 130, 95, 115, 125],                  // 91B
+  [85, 95, 85, 100, 100, 120, 130],                        // 78A
+  [95, 100, 115, 120, 130, 150],                           // 78B
+  [85, 95, 100, 120, 130],                                 // 95A
+  [95, 120, 130, 150],                                     // 95B
+  [80, 95, 110],                                           // 77A
+  [100, 110],                                              // 77B
+  [120],                                                   // 77C
+];
+
+const IDF_GV_ROWS = [
+  [95, 100, 105, 100, 105, 125, 115, 130, 115, 130, 105, 125, 140], // 75
+  [100, 100, 100, 105, 125, 115, 130, 120, 130, 105, 125, 140],     // 94
+  [100, 105, 115, 130, 115, 130, 115, 130, 120, 140, 150],          // 92
+  [100, 120, 130, 115, 135, 115, 135, 130, 140, 145],               // 93
+  [105, 115, 115, 135, 115, 135, 140, 145, 150],                    // 91A
+  [125, 140, 155, 150, 165, 130, 140, 150],                         // 91B
+  [115, 120, 125, 130, 140, 160, 170],                              // 78A
+  [120, 135, 145, 150, 160, 170],                                   // 78B
+  [115, 140, 140, 150, 160],                                        // 95A
+  [120, 150, 160, 170],                                             // 95B
+  [105, 125, 140],                                                  // 77A
+  [120, 135],                                                       // 77B
+  [145],                                                            // 77C
+];
+
+// Renvoie le prix de base (matrice) pour une paire de zones IDF.
+function getIdfBasePrice(fromKey, toKey, vehicleId) {
+  const rows =
+    vehicleId === "break" ? IDF_BREAK_ROWS :
+    vehicleId === "fourgon" ? IDF_FOURGON_ROWS :
+    IDF_GV_ROWS;
+  let i = IDF_MATRIX_ORDER.indexOf(fromKey);
+  let j = IDF_MATRIX_ORDER.indexOf(toKey);
+  if (i < 0 || j < 0) return null;
+  if (i > j) [i, j] = [j, i];
+  const row = rows[i];
+  const offset = j - i;
+  return row && row[offset] != null ? row[offset] : null;
+}
+
+// Prix final IDF (matrice + 10 €)
+function getIdfPrice(fromKey, toKey, vehicleId) {
+  const base = getIdfBasePrice(fromKey, toKey, vehicleId);
+  return base == null ? null : base + 10;
+}
+
+// Parse une saisie utilisateur : "75", "75015", "78 ", "95100" → code département IDF ou null
+function parseDepartementInput(input) {
+  const cleaned = (input || "").trim().replace(/\s+/g, "");
+  if (!cleaned) return null;
+  // Code postal 5 chiffres
+  if (/^\d{5}$/.test(cleaned)) {
+    const code = cleaned.slice(0, 2);
+    return IDF_CODES.includes(code) ? code : null;
+  }
+  // Numéro de département 2 chiffres
+  if (/^\d{2}$/.test(cleaned)) {
+    return IDF_CODES.includes(cleaned) ? cleaned : null;
+  }
+  return null;
+}
+
+// Taux surcharge carburant (appliquée sur HT)
+const TAUX_CARBURANT = 0.16;
+
 // Format €
 const fmtEuro = (n) =>
   n.toLocaleString("fr-FR", {
@@ -197,6 +308,12 @@ const searchDestinations = (query, list) => {
 
 export default function CalculateurPrixTransport() {
   const [vehiculeId, setVehiculeId] = useState("fourgon");
+  const [typeLivraison, setTypeLivraison] = useState("idf"); // "idf" | "province"
+  // Intra-IDF : départ + arrivée
+  const [idfDepart, setIdfDepart] = useState({ input: "75", code: "75", zone: null });
+  const [idfArrivee, setIdfArrivee] = useState({ input: "", code: null, zone: null });
+  // Province : départ pré-rempli à Paris (modifiable), arrivée via recherche
+  const [provinceDepartCode, setProvinceDepartCode] = useState("75");
   const [query, setQuery] = useState("");
   const [destination, setDestination] = useState(null);
   const [heuresAttente, setHeuresAttente] = useState(0);
@@ -217,21 +334,42 @@ export default function CalculateurPrixTransport() {
     [query, destinationsFiltrees]
   );
 
+  // Construit la clé de matrice IDF (ex: "75", "77A", "92") depuis code + zone
+  const idfKey = (sel) => {
+    if (!sel || !sel.code) return null;
+    const dept = IDF_DEPARTEMENTS.find((d) => d.code === sel.code);
+    if (!dept) return null;
+    if (dept.zones && !sel.zone) return null; // zone obligatoire si découpé
+    return dept.zones ? `${sel.code}${sel.zone}` : sel.code;
+  };
+
   const calcul = useMemo(() => {
-    if (!destination || !vehicule) return null;
-    const prixMap = {
-      break: destination.prixBreak,
-      fourgon: destination.prixFourgon,
-      gv: destination.prixGv,
-    };
-    const transport = prixMap[vehicule.priceKey];
+    if (!vehicule) return null;
+    let transport = null;
+    if (typeLivraison === "idf") {
+      const fromKey = idfKey(idfDepart);
+      const toKey = idfKey(idfArrivee);
+      if (!fromKey || !toKey) return null;
+      transport = getIdfPrice(fromKey, toKey, vehicule.priceKey);
+    } else {
+      if (!destination) return null;
+      const prixMap = {
+        break: destination.prixBreak,
+        fourgon: destination.prixFourgon,
+        gv: destination.prixGv,
+      };
+      transport = prixMap[vehicule.priceKey];
+    }
+    if (transport == null) return null;
     const heures = Math.max(0, Math.min(10, Math.ceil(heuresAttente)));
     const attente = heures * vehicule.attente;
-    const totalHT = transport + attente;
+    const sousTotalHT = transport + attente;
+    const carburant = sousTotalHT * TAUX_CARBURANT;
+    const totalHT = sousTotalHT + carburant;
     const tva = totalHT * 0.2;
     const totalTTC = totalHT + tva;
-    return { transport, attente, heures, totalHT, tva, totalTTC };
-  }, [destination, vehicule, heuresAttente]);
+    return { transport, attente, heures, sousTotalHT, carburant, totalHT, tva, totalTTC };
+  }, [typeLivraison, idfDepart, idfArrivee, destination, vehicule, heuresAttente]);
 
   const S = {
     card: { background: "#fff", borderRadius: 12, padding: 24, boxShadow: "0 4px 16px rgba(21,42,74,0.08)", border: "1px solid #dce1e8", marginBottom: 24 },
@@ -314,110 +452,257 @@ export default function CalculateurPrixTransport() {
             </div>
           </div>
 
-          {/* Destination */}
+          {/* Type de livraison */}
           <div style={S.card}>
-            <h2 style={S.h2}>2. Choisissez votre destination</h2>
-
-            {/* Filtres */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 16, alignItems: "center" }}>
+            <h2 style={S.h2}>2. Type de livraison</h2>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
               {[
-                { id: "tout", label: "Toutes" },
-                { id: "france", label: "France" },
-                { id: "europe", label: "Europe" },
-              ].map((f) => (
-                <button
-                  key={f.id}
-                  type="button"
-                  onClick={() => setFiltre(f.id)}
+                { id: "idf", label: "Île-de-France", sub: "Intra-IDF" },
+                { id: "province", label: "Province ou Europe", sub: "Depuis Paris par défaut" },
+              ].map((t) => {
+                const actif = typeLivraison === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => setTypeLivraison(t.id)}
+                    style={{
+                      flex: "1 1 220px",
+                      textAlign: "left",
+                      borderRadius: 12,
+                      padding: 14,
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      border: actif ? `2px solid ${S.red}` : `2px solid ${S.border}`,
+                      background: actif ? "rgba(229,20,20,0.04)" : "#fff",
+                      boxShadow: actif ? "0 4px 20px rgba(229,20,20,0.12)" : "0 1px 3px rgba(21,42,74,0.06)",
+                    }}
+                  >
+                    <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 700, fontSize: 14, color: S.navy }}>{t.label}</div>
+                    <div style={{ fontSize: 12, color: S.gray, marginTop: 2 }}>{t.sub}</div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Départ et Arrivée */}
+          {typeLivraison === "idf" ? (
+            <div style={S.card}>
+              <h2 style={S.h2}>3. Départ et arrivée (intra-IDF)</h2>
+              <p style={{ fontSize: 12, color: S.lightGray, marginBottom: 12 }}>
+                Saisissez un numéro de département (ex&nbsp;: 75, 92) ou un code postal (ex&nbsp;: 75015, 92100).
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 16 }}>
+                {[
+                  { key: "depart", label: "Départ", value: idfDepart, setter: setIdfDepart },
+                  { key: "arrivee", label: "Arrivée", value: idfArrivee, setter: setIdfArrivee },
+                ].map(({ key, label, value, setter }) => {
+                  const dept = value.code ? IDF_DEPARTEMENTS.find((d) => d.code === value.code) : null;
+                  return (
+                    <div key={key} style={{ padding: 12, borderRadius: 8, border: `1px solid ${S.border}`, background: S.light }}>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: S.red, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>{label}</div>
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        value={value.input}
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          const code = parseDepartementInput(input);
+                          setter({ input, code, zone: value.code === code ? value.zone : null });
+                        }}
+                        placeholder="N° département ou code postal"
+                        style={{
+                          width: "100%",
+                          padding: "10px 14px",
+                          border: `1px solid ${S.border}`,
+                          borderRadius: 8,
+                          fontSize: 14,
+                          fontFamily: "'Open Sans', sans-serif",
+                          outline: "none",
+                          boxSizing: "border-box",
+                          background: "#fff",
+                        }}
+                      />
+                      {dept ? (
+                        <div style={{ marginTop: 8, fontSize: 13, color: S.navy }}>
+                          <span style={{ fontWeight: 600 }}>{dept.code}</span> — {dept.nom}
+                        </div>
+                      ) : value.input ? (
+                        <div style={{ marginTop: 8, fontSize: 12, color: S.red }}>Département non reconnu ou hors IDF.</div>
+                      ) : null}
+                      {dept && dept.zones && (
+                        <div style={{ marginTop: 10 }}>
+                          <div style={{ fontSize: 12, color: S.gray, marginBottom: 6 }}>Zone&nbsp;:</div>
+                          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                            {dept.zones.map((z) => {
+                              const actif = value.zone === z;
+                              return (
+                                <button
+                                  key={z}
+                                  type="button"
+                                  onClick={() => setter({ ...value, zone: z })}
+                                  style={{
+                                    padding: "6px 14px",
+                                    borderRadius: 6,
+                                    fontSize: 13,
+                                    fontWeight: 600,
+                                    border: actif ? `2px solid ${S.red}` : `1px solid ${S.border}`,
+                                    background: actif ? S.red : "#fff",
+                                    color: actif ? "#fff" : S.navy,
+                                    cursor: "pointer",
+                                  }}
+                                >
+                                  Zone {z}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : (
+            <div style={S.card}>
+              <h2 style={S.h2}>3. Départ et destination</h2>
+
+              {/* Départ (IDF, Paris par défaut) */}
+              <div style={{ marginBottom: 16 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: S.red, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>Départ</div>
+                <select
+                  value={provinceDepartCode}
+                  onChange={(e) => setProvinceDepartCode(e.target.value)}
                   style={{
-                    padding: "6px 16px",
-                    borderRadius: 20,
-                    fontSize: 13,
-                    fontWeight: 500,
-                    border: "none",
-                    cursor: "pointer",
-                    transition: "all 0.2s",
-                    background: filtre === f.id ? S.navy : S.light,
-                    color: filtre === f.id ? "#fff" : S.gray,
+                    width: "100%",
+                    padding: "10px 14px",
+                    border: `1px solid ${S.border}`,
+                    borderRadius: 8,
+                    fontSize: 14,
+                    fontFamily: "'Open Sans', sans-serif",
+                    outline: "none",
+                    background: "#fff",
+                    color: S.navy,
+                    boxSizing: "border-box",
                   }}
                 >
-                  {f.label}
-                </button>
-              ))}
-              <span style={{ marginLeft: "auto", fontSize: 12, color: S.lightGray }}>
-                {destinationsFiltrees.length} destination{destinationsFiltrees.length > 1 ? "s" : ""}
-              </span>
-            </div>
-
-            {/* Recherche */}
-            <div style={{ position: "relative" }}>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => { setQuery(e.target.value); setShowSuggestions(true); }}
-                onFocus={() => setShowSuggestions(true)}
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-                placeholder="Rechercher une ville, un département ou un pays..."
-                style={{
-                  width: "100%",
-                  padding: "12px 16px 12px 40px",
-                  border: `1px solid ${S.border}`,
-                  borderRadius: 8,
-                  fontSize: 14,
-                  fontFamily: "'Open Sans', sans-serif",
-                  outline: "none",
-                  boxSizing: "border-box",
-                }}
-              />
-              <svg style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", width: 16, height: 16, color: S.lightGray }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
-              </svg>
-
-              {showSuggestions && suggestions.length > 0 && (
-                <ul style={{ position: "absolute", zIndex: 20, width: "100%", marginTop: 4, maxHeight: 280, overflowY: "auto", background: "#fff", border: `1px solid ${S.border}`, borderRadius: 8, boxShadow: "0 10px 30px rgba(21,42,74,0.12)", listStyle: "none", padding: 0 }}>
-                  {suggestions.map((d) => (
-                    <li key={d.id}>
-                      <button
-                        type="button"
-                        className="ecs-suggestion-btn"
-                        onMouseDown={(e) => { e.preventDefault(); setDestination(d); setQuery(d.ville); setShowSuggestions(false); }}
-                        style={{ width: "100%", textAlign: "left", padding: "10px 16px", border: "none", borderBottom: `1px solid ${S.light}`, background: "transparent", cursor: "pointer", fontFamily: "'Open Sans', sans-serif" }}
-                      >
-                        <div style={{ fontSize: 14, fontWeight: 500, color: S.navy }}>
-                          {d.ville}
-                          {d.corse && <span style={{ marginLeft: 8, fontSize: 11, background: "#fef3c7", color: "#92400e", padding: "2px 8px", borderRadius: 10 }}>Ferry inclus</span>}
-                          {d.ferrySupplement && <span style={{ marginLeft: 8, fontSize: 11, background: "#ffedd5", color: "#9a3412", padding: "2px 8px", borderRadius: 10 }}>Ferry en supplément</span>}
-                        </div>
-                        <div style={{ fontSize: 12, color: S.lightGray }}>{d.zone}</div>
-                      </button>
-                    </li>
+                  {IDF_DEPARTEMENTS.map((d) => (
+                    <option key={d.code} value={d.code}>
+                      {d.code} — {d.nom}
+                    </option>
                   ))}
-                </ul>
-              )}
+                </select>
+                <p style={{ fontSize: 11, color: S.lightGray, marginTop: 6 }}>
+                  Tarif indicatif calculé depuis Paris&nbsp;; modifier le départ ne change pas le prix de la grille.
+                </p>
+              </div>
 
-              {showSuggestions && query && suggestions.length === 0 && (
-                <div style={{ position: "absolute", zIndex: 20, width: "100%", marginTop: 4, background: "#fff", border: `1px solid ${S.border}`, borderRadius: 8, boxShadow: "0 10px 30px rgba(21,42,74,0.12)", padding: 16, fontSize: 14, color: S.gray }}>
-                  Aucune destination trouvée pour « {query} »
+              {/* Destination */}
+              <div style={{ fontSize: 12, fontWeight: 600, color: S.red, marginBottom: 6, textTransform: "uppercase", letterSpacing: 0.5 }}>Destination</div>
+
+              {/* Filtres */}
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 12, alignItems: "center" }}>
+                {[
+                  { id: "tout", label: "Toutes" },
+                  { id: "france", label: "France" },
+                  { id: "europe", label: "Europe" },
+                ].map((f) => (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => setFiltre(f.id)}
+                    style={{
+                      padding: "6px 16px",
+                      borderRadius: 20,
+                      fontSize: 13,
+                      fontWeight: 500,
+                      border: "none",
+                      cursor: "pointer",
+                      transition: "all 0.2s",
+                      background: filtre === f.id ? S.navy : S.light,
+                      color: filtre === f.id ? "#fff" : S.gray,
+                    }}
+                  >
+                    {f.label}
+                  </button>
+                ))}
+                <span style={{ marginLeft: "auto", fontSize: 12, color: S.lightGray }}>
+                  {destinationsFiltrees.length} destination{destinationsFiltrees.length > 1 ? "s" : ""}
+                </span>
+              </div>
+
+              {/* Recherche */}
+              <div style={{ position: "relative" }}>
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => { setQuery(e.target.value); setShowSuggestions(true); }}
+                  onFocus={() => setShowSuggestions(true)}
+                  onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+                  placeholder="Rechercher une ville, un département ou un pays..."
+                  style={{
+                    width: "100%",
+                    padding: "12px 16px 12px 40px",
+                    border: `1px solid ${S.border}`,
+                    borderRadius: 8,
+                    fontSize: 14,
+                    fontFamily: "'Open Sans', sans-serif",
+                    outline: "none",
+                    boxSizing: "border-box",
+                  }}
+                />
+                <svg style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", width: 16, height: 16, color: S.lightGray }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z" />
+                </svg>
+
+                {showSuggestions && suggestions.length > 0 && (
+                  <ul style={{ position: "absolute", zIndex: 20, width: "100%", marginTop: 4, maxHeight: 280, overflowY: "auto", background: "#fff", border: `1px solid ${S.border}`, borderRadius: 8, boxShadow: "0 10px 30px rgba(21,42,74,0.12)", listStyle: "none", padding: 0 }}>
+                    {suggestions.map((d) => (
+                      <li key={d.id}>
+                        <button
+                          type="button"
+                          className="ecs-suggestion-btn"
+                          onMouseDown={(e) => { e.preventDefault(); setDestination(d); setQuery(d.ville); setShowSuggestions(false); }}
+                          style={{ width: "100%", textAlign: "left", padding: "10px 16px", border: "none", borderBottom: `1px solid ${S.light}`, background: "transparent", cursor: "pointer", fontFamily: "'Open Sans', sans-serif" }}
+                        >
+                          <div style={{ fontSize: 14, fontWeight: 500, color: S.navy }}>
+                            {d.ville}
+                            {d.corse && <span style={{ marginLeft: 8, fontSize: 11, background: "#fef3c7", color: "#92400e", padding: "2px 8px", borderRadius: 10 }}>Ferry inclus</span>}
+                            {d.ferrySupplement && <span style={{ marginLeft: 8, fontSize: 11, background: "#ffedd5", color: "#9a3412", padding: "2px 8px", borderRadius: 10 }}>Ferry en supplément</span>}
+                          </div>
+                          <div style={{ fontSize: 12, color: S.lightGray }}>{d.zone}</div>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {showSuggestions && query && suggestions.length === 0 && (
+                  <div style={{ position: "absolute", zIndex: 20, width: "100%", marginTop: 4, background: "#fff", border: `1px solid ${S.border}`, borderRadius: 8, boxShadow: "0 10px 30px rgba(21,42,74,0.12)", padding: 16, fontSize: 14, color: S.gray }}>
+                    Aucune destination trouvée pour « {query} »
+                  </div>
+                )}
+              </div>
+
+              {destination && (
+                <div style={{ marginTop: 16, padding: 12, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(21,42,74,0.04)", border: "1px solid rgba(21,42,74,0.15)" }}>
+                  <div>
+                    <div style={{ fontSize: 12, fontWeight: 500, color: S.red }}>Destination sélectionnée</div>
+                    <div style={{ fontSize: 14, fontWeight: 600, color: S.navy }}>
+                      {destination.ville} <span style={{ fontSize: 12, fontWeight: 400, color: S.gray }}>({destination.zone})</span>
+                    </div>
+                  </div>
+                  <button type="button" onClick={() => { setDestination(null); setQuery(""); }} style={{ color: S.lightGray, fontSize: 20, border: "none", background: "none", cursor: "pointer", lineHeight: 1 }} aria-label="Supprimer">×</button>
                 </div>
               )}
             </div>
-
-            {destination && (
-              <div style={{ marginTop: 16, padding: 12, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "space-between", background: "rgba(21,42,74,0.04)", border: "1px solid rgba(21,42,74,0.15)" }}>
-                <div>
-                  <div style={{ fontSize: 12, fontWeight: 500, color: S.red }}>Destination sélectionnée</div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: S.navy }}>
-                    {destination.ville} <span style={{ fontSize: 12, fontWeight: 400, color: S.gray }}>({destination.zone})</span>
-                  </div>
-                </div>
-                <button type="button" onClick={() => { setDestination(null); setQuery(""); }} style={{ color: S.lightGray, fontSize: 20, border: "none", background: "none", cursor: "pointer", lineHeight: 1 }} aria-label="Supprimer">×</button>
-              </div>
-            )}
-          </div>
+          )}
 
           {/* Heures d'attente */}
           <div style={S.card}>
-            <h2 style={S.h2}>3. Heures d'attente / manutention</h2>
+            <h2 style={S.h2}>4. Heures d'attente / manutention</h2>
             <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
               <button type="button" className="ecs-stepper-btn" onClick={() => setHeuresAttente(Math.max(0, heuresAttente - 1))} style={{ width: 40, height: 40, borderRadius: 8, border: `1px solid ${S.border}`, background: "#fff", color: S.navy, fontWeight: 700, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>−</button>
               <input
@@ -444,13 +729,35 @@ export default function CalculateurPrixTransport() {
 
             <div style={{ padding: 20 }}>
               <div style={S.row}><span style={S.label}>Véhicule</span><span style={S.value}>{vehicule.nom}</span></div>
-              <div style={S.row}><span style={S.label}>Destination</span><span style={S.value}>{destination ? destination.ville : "—"}</span></div>
+              {typeLivraison === "idf" ? (
+                <>
+                  <div style={S.row}>
+                    <span style={S.label}>Départ</span>
+                    <span style={S.value}>{idfKey(idfDepart) || "—"}</span>
+                  </div>
+                  <div style={S.row}>
+                    <span style={S.label}>Arrivée</span>
+                    <span style={S.value}>{idfKey(idfArrivee) || "—"}</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div style={S.row}>
+                    <span style={S.label}>Départ</span>
+                    <span style={S.value}>{provinceDepartCode} — {(IDF_DEPARTEMENTS.find((d) => d.code === provinceDepartCode) || {}).nom || "Paris"}</span>
+                  </div>
+                  <div style={S.row}>
+                    <span style={S.label}>Destination</span>
+                    <span style={S.value}>{destination ? destination.ville : "—"}</span>
+                  </div>
+                </>
+              )}
               <div style={S.row}><span style={S.label}>Heures d'attente</span><span style={S.value}>{heuresAttente} h</span></div>
 
-              {destination && destination.corse && (
+              {typeLivraison === "province" && destination && destination.corse && (
                 <div style={{ background: "#fef3c7", border: "1px solid #fde68a", color: "#92400e", fontSize: 12, borderRadius: 8, padding: 12, marginBottom: 8 }}>🛳️ Prix du ferry inclus (Corse)</div>
               )}
-              {destination && destination.ferrySupplement && (
+              {typeLivraison === "province" && destination && destination.ferrySupplement && (
                 <div style={{ background: "#ffedd5", border: "1px solid #fed7aa", color: "#9a3412", fontSize: 12, borderRadius: 8, padding: 12, marginBottom: 8 }}>⚠️ Ferry en supplément (non inclus)</div>
               )}
 
@@ -459,6 +766,14 @@ export default function CalculateurPrixTransport() {
                   <hr style={{ border: "none", borderTop: `1px solid ${S.border}`, margin: "16px 0" }} />
                   <div style={S.row}><span style={S.label}>Transport HT</span><span style={{ ...S.value, fontWeight: 500 }}>{fmtEuro(calcul.transport)}</span></div>
                   <div style={S.row}><span style={S.label}>Attente ({calcul.heures} × {vehicule.attente} €)</span><span style={{ ...S.value, fontWeight: 500 }}>{fmtEuro(calcul.attente)}</span></div>
+                  <div style={{ ...S.row, paddingTop: 8, borderTop: `1px dashed ${S.border}`, marginTop: 4 }}>
+                    <span style={S.label}>Sous-total HT</span>
+                    <span style={{ ...S.value, fontWeight: 500 }}>{fmtEuro(calcul.sousTotalHT)}</span>
+                  </div>
+                  <div style={S.row}>
+                    <span style={S.label}>Surcharge carburant (16 %)</span>
+                    <span style={{ ...S.value, fontWeight: 500 }}>{fmtEuro(calcul.carburant)}</span>
+                  </div>
                   <div style={{ ...S.row, paddingTop: 12, borderTop: `1px solid ${S.border}`, marginTop: 8 }}>
                     <span style={{ color: S.navy, fontWeight: 600, fontSize: 14 }}>Total HT</span>
                     <span style={{ color: S.navy, fontWeight: 700, fontSize: 14 }}>{fmtEuro(calcul.totalHT)}</span>
@@ -473,7 +788,9 @@ export default function CalculateurPrixTransport() {
                 </>
               ) : (
                 <div style={{ background: S.light, border: `1px solid ${S.border}`, borderRadius: 8, padding: 16, textAlign: "center", fontSize: 14, color: S.gray, marginTop: 16 }}>
-                  Sélectionnez une destination pour afficher le calcul.
+                  {typeLivraison === "idf"
+                    ? "Complétez le départ et l'arrivée (incl. la zone si demandée) pour afficher le calcul."
+                    : "Sélectionnez une destination pour afficher le calcul."}
                 </div>
               )}
             </div>
