@@ -1,5 +1,5 @@
 /* ===================================
-   ECS - Main JavaScript
+   ECS75 - Main JavaScript
    =================================== */
 
 // Azure Function API endpoint — update this after deploying

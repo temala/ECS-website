@@ -59,7 +59,7 @@ module.exports = async function (context, req) {
                 <p style="color:#8c95a4;font-size:12px;">Envoyé depuis le formulaire de devis sur ecs75.fr</p>
             `;
         } else {
-            subject = body.subject ? `Contact – ${body.subject}` : `Message depuis le site ECS – ${body.name}`;
+            subject = body.subject ? `Contact – ${body.subject}` : `Message depuis le site ECS75 – ${body.name}`;
             htmlContent = `
                 <h2 style="color:#152a4a;">Nouveau Message de Contact</h2>
                 <hr style="border:1px solid #e51414;">
