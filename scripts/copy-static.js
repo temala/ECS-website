@@ -31,12 +31,14 @@ for (const item of items) {
   console.log(`  copied: ${item}`);
 }
 
-// Copy only js/main.js (not the JSX source)
-const jsSrc = resolve(root, "js", "main.js");
-const jsDest = resolve(dist, "js", "main.js");
-if (existsSync(jsSrc)) {
-  cpSync(jsSrc, jsDest, { recursive: true });
-  console.log("  copied: js/main.js");
+// Copy vanilla JS files (not the JSX source)
+for (const jsFile of ["main.js", "chatbot.js"]) {
+  const jsSrc = resolve(root, "js", jsFile);
+  const jsDest = resolve(dist, "js", jsFile);
+  if (existsSync(jsSrc)) {
+    cpSync(jsSrc, jsDest, { recursive: true });
+    console.log(`  copied: js/${jsFile}`);
+  }
 }
 
 console.log("Static files copied to dist/");
