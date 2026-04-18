@@ -11,7 +11,7 @@
 
 - 40 collaborateurs mobilisés
 - 35 véhicules récents et sécurisés
-- 1 000 m² d'entreposage sécurisé
+- 1 000 m² de stockage sécurisé
 - 2 millions+ km parcourus par an
 - 50 000+ clients livrés par an
 - 20+ frontières franchies par an
@@ -33,7 +33,7 @@
 - Véhicules semi-blindés avec portes renforcées
 - Blindage arrière et boutons d'urgence
 - Caméras embarquées et GPS en temps réel
-- Entreposage sécurisé de 1 000 m²
+- Stockage sécurisé de 1 000 m²
 
 ### 3. Navettes Courrier
 - Navettes inter-sites et multi-sites
@@ -42,11 +42,11 @@
 - Flexibilité adaptée aux horaires clients
 - Solution pour flux de documents et colis
 
-### 4. Logistique & Préparation de Commandes
+### 4. Logistique, stockage et Préparation de Commandes
 - Gestion des stocks et inventaires
 - Picking et préparation de commandes
 - Contrôle qualité des expéditions
-- Entreposage dans 1 000 m²
+- Stockage dans 1 000 m²
 
 ### 5. Traçabilité des Envois (ECS75 App©)
 - Application propriétaire ECS75
@@ -61,7 +61,7 @@
 - Solutions sur-mesure
 - Respect du cahier des charges et délais
 
-### 7. Déménagement d'Entreprise
+### 7. Déménagement d'Entreprise et Garde-Meubles
 - Organisation et planification complète
 - Prise en charge intégrale
 - Transport sécurisé des équipements
@@ -133,7 +133,7 @@ Types de service disponibles :
 - Livraison Sécurisée
 - Navette Courrier
 - Logistique & Stockage
-- Déménagement d'Entreprise
+- Déménagement d'Entreprise et Garde-Meubles
 - Autre
 
 ---

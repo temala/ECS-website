@@ -138,11 +138,11 @@ Each hub dispatches parcels via **sectorized routes**, managed through the propr
 ### FR — Services sur mesure
 
 1. **Livraison express toutes distances J+1** — Livraison le lendemain, France et international.
-2. **Entreposage sécurisé** — Espace de stockage de 1 000 m².
+2. **Stockage sécurisé** — Espace de stockage de 1 000 m².
 3. **Gestion de commandes** — Préparation, contrôle et expédition.
 4. **Consulting logistique** — Analyse et optimisation de la chaîne logistique du client, réduction des coûts de transport.
 5. **Suivi en temps réel** — Traçabilité complète à chaque étape.
-6. **Déménagement d'entreprise** — Organisation et prise en charge complète.
+6. **Déménagement d'entreprise et garde-meubles** — Organisation et prise en charge complète.
 
 ### EN — Tailored services
 
@@ -219,7 +219,7 @@ Clients can geolocate their parcels and electronically sign delivery receipts th
 | Clients livrés par an / Clients delivered yearly | **+50 000** |
 | Frontières franchies par an / Borders crossed yearly | **20** |
 | Année de création / Founded | **2007** |
-| Surface d'entreposage / Warehousing area | **1 000 m²** |
+| Surface de stockage / Warehousing area | **1 000 m²** |
 
 ---
 
@@ -296,7 +296,7 @@ A: Yes, we cross around 20 borders per year for international deliveries. For a 
 ### 9.2 Services / Services
 
 **Q (FR) : Quels types de transport faites-vous ?**
-R : Nous faisons de la livraison express J+1 toutes distances, de l'entreposage sécurisé, de la gestion de commandes, du consulting logistique, du suivi en temps réel et du déménagement d'entreprise. Quel est votre besoin principal ?
+R : Nous faisons de la livraison express J+1 toutes distances, du stockage sécurisé, de la gestion de commandes, du consulting logistique, du suivi en temps réel et du déménagement d'entreprise et garde-meubles. Quel est votre besoin principal ?
 
 **Q (EN): What types of transport do you offer?**
 A: We do next-day (D+1) express delivery all distances, secured warehousing, order management, logistics consulting, real-time tracking, and corporate relocation. What's your main need?
@@ -320,7 +320,7 @@ A: We specialize in **secured transport**. Our vehicles are semi-armored and sui
 ---
 
 **Q (FR) : Vous avez des entrepôts ? Vous pouvez stocker ma marchandise ?**
-R : Oui, nous disposons d'un espace d'entreposage sécurisé de **1 000 m²**. Pour les conditions de stockage et le tarif, un conseiller prendra votre demande en charge.
+R : Oui, nous disposons d'un espace de stockage sécurisé de **1 000 m²**. Pour les conditions de stockage et le tarif, un conseiller prendra votre demande en charge.
 
 **Q (EN): Do you have warehouses? Can you store my goods?**
 A: Yes, we have a **1,000 sqm secured warehousing facility**. For storage conditions and pricing, an agent will take your request.
@@ -415,7 +415,7 @@ A: Of course, transferring you now. May I have your name and the nature of your 
 
 **FR — Questions à poser dans l'ordre :**
 
-1. **Type de service** : Livraison express, entreposage, gestion de commandes, consulting, déménagement, ou autre ?
+1. **Type de service** : Livraison express, stockage, gestion de commandes, consulting, déménagement, ou autre ?
 2. **Nature de la marchandise** : Documents, produits de valeur, biomédical, luxe, matériel informatique, autre ? (Pour vérifier l'éligibilité transport sécurisé.)
 3. **Volume estimé** : Nombre de colis / palettes / m³ par jour, semaine ou mois ?
 4. **Poids moyen** par colis ou envoi ?
