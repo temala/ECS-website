@@ -2248,8 +2248,14 @@ ul {
     justify-content: center;
     box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
     z-index: 999;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
     text-decoration: none;
+}
+
+/* Hide WhatsApp button when chatbot window is open */
+.whatsapp-float.chatbot-active {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .whatsapp-float:hover {

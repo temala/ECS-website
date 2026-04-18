@@ -94,11 +94,15 @@ module.exports = async function (context, req) {
       return;
     }
 
-    // Sanitize messages: only keep role and content
-    const sanitized = messages.map((m) => ({
-      role: m.role === "assistant" ? "assistant" : "user",
-      content: String(m.content).slice(0, 2000),
-    }));
+    // Sanitize messages: only keep role and content, limit history and length
+    const MAX_MESSAGES = 10;
+    const MAX_CONTENT_LENGTH = 500;
+    const sanitized = messages
+      .slice(-MAX_MESSAGES)
+      .map((m) => ({
+        role: m.role === "assistant" ? "assistant" : "user",
+        content: String(m.content).slice(0, MAX_CONTENT_LENGTH),
+      }));
 
     const response = await callClaude(sanitized);
     const reply =

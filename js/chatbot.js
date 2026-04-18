@@ -6,6 +6,14 @@
   var isOpen = false;
   var isLoading = false;
 
+  // Rate limiting & token protection
+  var MAX_MESSAGE_LENGTH = 500;
+  var MAX_HISTORY_MESSAGES = 10; // keep last N messages sent to API
+  var MAX_MESSAGES_PER_SESSION = 30;
+  var messageCount = 0;
+  var MIN_INTERVAL_MS = 2000; // minimum 2s between messages
+  var lastSentAt = 0;
+
   // --- Create DOM ---
   function createWidget() {
     // Chat toggle button
@@ -27,7 +35,7 @@
       "</div>" +
       '<div id="chatbot-messages"></div>' +
       '<div id="chatbot-input-area">' +
-      '  <input id="chatbot-input" type="text" placeholder="Posez votre question..." autocomplete="off" />' +
+      '  <input id="chatbot-input" type="text" placeholder="Posez votre question..." autocomplete="off" maxlength="' + MAX_MESSAGE_LENGTH + '" />' +
       '  <button id="chatbot-send" aria-label="Envoyer">' +
       '    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
       '      <line x1="22" y1="2" x2="11" y2="13"></line>' +
@@ -61,13 +69,17 @@
     isOpen = !isOpen;
     var win = document.getElementById("chatbot-window");
     var btn = document.getElementById("chatbot-toggle");
+    var whatsapp = document.querySelector(".whatsapp-float");
+
     if (isOpen) {
       win.classList.add("open");
       btn.classList.add("open");
+      if (whatsapp) whatsapp.classList.add("chatbot-active");
       document.getElementById("chatbot-input").focus();
     } else {
       win.classList.remove("open");
       btn.classList.remove("open");
+      if (whatsapp) whatsapp.classList.remove("chatbot-active");
     }
   }
 
@@ -112,9 +124,33 @@
     var text = input.value.trim();
     if (!text) return;
 
+    // Rate limiting: enforce minimum interval
+    var now = Date.now();
+    if (now - lastSentAt < MIN_INTERVAL_MS) {
+      appendMessage("assistant", "Merci de patienter quelques secondes entre chaque message.");
+      return;
+    }
+
+    // Session message limit
+    if (messageCount >= MAX_MESSAGES_PER_SESSION) {
+      appendMessage(
+        "assistant",
+        "Vous avez atteint la limite de messages pour cette session. Pour plus d'aide, contactez-nous au **01 70 03 60 00** ou par WhatsApp."
+      );
+      return;
+    }
+
+    // Truncate message on frontend
+    text = text.slice(0, MAX_MESSAGE_LENGTH);
+
     input.value = "";
     appendMessage("user", text);
     messages.push({ role: "user", content: text });
+    messageCount++;
+    lastSentAt = now;
+
+    // Only send the last N messages to limit token usage
+    var historyToSend = messages.slice(-MAX_HISTORY_MESSAGES);
 
     isLoading = true;
     showLoading();
@@ -123,7 +159,7 @@
     fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages: messages }),
+      body: JSON.stringify({ messages: historyToSend }),
     })
       .then(function (res) {
         return res.json();
