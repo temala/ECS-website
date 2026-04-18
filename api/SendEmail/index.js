@@ -37,7 +37,21 @@ module.exports = async function (context, req) {
         let subject;
         let htmlContent;
 
-        if (body.formType === "quote") {
+        if (body.formType === "simulator-access") {
+            subject = `Nouveau prospect simulateur – ${body.company || body.name}`;
+            htmlContent = `
+                <h2 style="color:#152a4a;">Nouveau Prospect – Simulateur de Tarifs</h2>
+                <hr style="border:1px solid #e51414;">
+                <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;">
+                    <tr><td style="padding:8px;font-weight:bold;color:#152a4a;">Société</td><td style="padding:8px;">${escapeHtml(body.company || '-')}</td></tr>
+                    <tr style="background:#f4f6f9;"><td style="padding:8px;font-weight:bold;color:#152a4a;">Nom</td><td style="padding:8px;">${escapeHtml(body.name)}</td></tr>
+                    <tr><td style="padding:8px;font-weight:bold;color:#152a4a;">Email</td><td style="padding:8px;"><a href="mailto:${escapeHtml(body.email)}">${escapeHtml(body.email)}</a></td></tr>
+                    <tr style="background:#f4f6f9;"><td style="padding:8px;font-weight:bold;color:#152a4a;">Téléphone</td><td style="padding:8px;">${escapeHtml(body.phone || '-')}</td></tr>
+                </table>
+                <hr style="border:1px solid #dce1e8;margin-top:24px;">
+                <p style="color:#8c95a4;font-size:12px;">Envoyé depuis le formulaire d'accès simulateur sur ecs75.fr</p>
+            `;
+        } else if (body.formType === "quote") {
             subject = `Demande de Devis – ${body.company || body.name}`;
             htmlContent = `
                 <h2 style="color:#152a4a;">Nouvelle Demande de Devis</h2>
