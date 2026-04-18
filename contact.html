@@ -150,7 +150,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
     (function() {
-        var map = L.map('ecs-map').setView([48.76347, 2.39223], 16);
+        var map = L.map('ecs-map').setView([48.75565, 2.37010], 16);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap',
             maxZoom: 19
@@ -164,7 +164,7 @@
             popupAnchor: [0, -28]
         });
 
-        L.marker([48.76347, 2.39223], { icon: logoIcon })
+        L.marker([48.75565, 2.37010], { icon: logoIcon })
             .addTo(map)
             .bindPopup('<strong>ECS75</strong><br>1 Avenue de l\'Europe<br>Tour Europa, 94320 Thiais')
             .openPopup();
