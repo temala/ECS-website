@@ -104,7 +104,7 @@ Pour obtenir un tarif précis, utilisez le **simulateur en ligne** ou demandez u
 ## Contact
 
 ### Coordonnées
-- **Adresse** : 1 Boulevard de L'Europe, Tour Europa, 94320 Thiais, France
+- **Adresse** : 1 Avenue de l'Europe, Tour Europa, 94320 Thiais, France
 - **Téléphone** : 01 70 03 60 00 / 01 70 03 60 29
 - **Email** : contact@ecs75.fr
 - **WhatsApp** : +33 6 26 27 42 84
