@@ -669,6 +669,10 @@ ul {
     transition: transform 0.5s ease;
 }
 
+.service-card:nth-child(3) .service-card-img img {
+    object-position: center top;
+}
+
 .service-card-img .service-img-overlay {
     position: absolute;
     bottom: 0;
@@ -868,13 +872,17 @@ ul {
 }
 
 .tech-visual {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.tech-visual .tech-image-dashboard {
+    grid-column: 1 / -1;
 }
 
 .tech-card {
-    padding: 30px;
+    padding: 18px;
     background: var(--color-white);
     border-radius: var(--radius-md);
     border: 1px solid var(--color-border);
@@ -883,35 +891,84 @@ ul {
 
 .tech-card:hover {
     border-color: transparent;
-    transform: translateX(5px);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-md);
 }
 
 .tech-card-icon {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: rgba(229,20,20,0.06);
     border-radius: var(--radius-sm);
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: var(--color-red);
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 }
 
 .tech-card h4 {
     font-family: var(--font-heading);
-    font-size: 1.05rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     color: var(--color-navy);
 }
 
 .tech-card p {
     color: var(--color-text-light);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.tech-fleet-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 24px;
+    background: linear-gradient(135deg, var(--color-navy), #1a2a4a);
+    border-radius: var(--radius-md);
+    margin-bottom: 24px;
+    color: var(--color-white);
+}
+
+.tech-fleet-banner > i {
+    font-size: 1.6rem;
+    color: var(--color-gold);
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.tech-fleet-banner h4 {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--color-gold);
+}
+
+.tech-fleet-banner p {
     font-size: 0.9rem;
-    line-height: 1.6;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.85);
+    margin: 0;
+}
+
+.tech-image-dashboard {
+    position: relative;
+}
+
+.tech-dashboard-logo {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 100px;
+    height: auto;
+    background: rgba(255,255,255,0.92);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 /* ===================================
@@ -1282,6 +1339,10 @@ ul {
     transform: scale(1.05);
 }
 
+.service-detail-card:nth-child(3) .service-detail-img img {
+    object-position: center top;
+}
+
 .service-detail-icon {
     width: 80px;
     height: 80px;
@@ -1370,10 +1431,7 @@ ul {
 }
 
 .about-image-badge {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    z-index: 2;
+    margin-top: 16px;
     background: var(--color-red);
     color: var(--color-white);
     font-family: var(--font-heading);
@@ -1381,7 +1439,7 @@ ul {
     font-weight: 700;
     padding: 10px 20px;
     border-radius: var(--radius-sm);
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
 }
@@ -1824,6 +1882,33 @@ ul {
 .map-section iframe {
     width: 100%;
     height: 100%;
+}
+
+.ecs-marker {
+    background: none;
+    border: none;
+}
+
+.ecs-marker-inner {
+    background: var(--color-red);
+    color: var(--color-white);
+    font-family: var(--font-heading);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    white-space: nowrap;
+    text-align: center;
+}
+
+.ecs-marker-arrow {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--color-red);
+    margin: 0 auto;
 }
 
 /* ===================================
