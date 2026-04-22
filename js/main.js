@@ -191,7 +191,7 @@ function initTrackingForm() {
         e.preventDefault();
         const trackingNumber = document.getElementById('tracking-number').value.trim();
         if (trackingNumber) {
-            window.open('http://149.202.68.114:8083/home/Track#!?colisId=' + encodeURIComponent(trackingNumber), '_blank');
+            window.open('http://149.202.68.114:8083/Home/Track#!?colisId=' + encodeURIComponent(trackingNumber), '_blank');
         }
     });
 }
