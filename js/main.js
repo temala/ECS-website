@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollAnimations();
     initForms();
     initTrackingForm();
+    initRseTabs();
 });
 
 /* --- Header Scroll Effect --- */
@@ -193,6 +194,42 @@ function initTrackingForm() {
         if (trackingNumber) {
             window.open('http://149.202.68.114:8083/Home/Track#!?colisId=' + encodeURIComponent(trackingNumber), '_blank');
         }
+    });
+}
+
+/* --- RSE Engagement Tabs --- */
+function initRseTabs() {
+    const tabs = document.querySelectorAll('.rse-tab');
+    const panels = document.querySelectorAll('.rse-panel');
+    if (!tabs.length || !panels.length) return;
+
+    function activate(tabKey) {
+        tabs.forEach(t => {
+            const isActive = t.dataset.tab === tabKey;
+            t.classList.toggle('active', isActive);
+            t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+        panels.forEach(p => {
+            const isActive = p.id === 'panel-' + tabKey;
+            p.classList.toggle('active', isActive);
+            if (isActive) {
+                p.removeAttribute('hidden');
+            } else {
+                p.setAttribute('hidden', '');
+            }
+        });
+    }
+
+    tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => activate(tab.dataset.tab));
+        tab.addEventListener('keydown', (e) => {
+            if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+            e.preventDefault();
+            const dir = e.key === 'ArrowRight' ? 1 : -1;
+            const next = tabs[(index + dir + tabs.length) % tabs.length];
+            next.focus();
+            activate(next.dataset.tab);
+        });
     });
 }
 

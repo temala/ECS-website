@@ -179,27 +179,188 @@
     </section>
 
     <!-- Engagement RSE -->
-    <section class="section rse-section">
+    <section class="section rse-section" id="rse">
         <div class="container">
+            <!-- 1. Introduction -->
             <div class="rse-layout">
                 <div class="rse-image" data-animate>
                     <img src="assets/images/ecs-van-electrique.png" alt="Véhicule électrique ECS75 en charge" loading="lazy">
                 </div>
                 <div class="rse-content" data-animate>
-                    <span class="section-label">Engagement RSE</span>
+                    <span class="section-label">Notre démarche RSE</span>
                     <h2>Un transport plus <span class="text-gold">responsable</span></h2>
-                    <p>Actuellement plus de 45 % de notre flotte circule en carburant propre (hybride, GNV, bio éthanol et électrique) et cela s'amplifie d'année en année afin de se doter d'une flotte de véhicules 100 % verts à horizon 2030.</p>
-                    <ul class="rse-commitments">
-                        <li><i class="fas fa-leaf"></i> Réduire les émissions de CO₂ tout au long de la chaîne de transport</li>
-                        <li><i class="fas fa-city"></i> Désaturer les centres-villes et améliorer la cohabitation avec les usagers</li>
-                        <li><i class="fas fa-map-marker-alt"></i> Développer des solutions locales, proches des territoires</li>
-                        <li><i class="fas fa-recycle"></i> Soutenir un modèle de livraison plus durable, compatible avec les futures réglementations urbaines</li>
-                        <li><i class="fas fa-route"></i> Optimiser nos tournées pour limiter les kilomètres parcourus à vide</li>
-                        <li><i class="fas fa-truck-front"></i> Moderniser notre flotte avec des véhicules à faibles émissions</li>
-                    </ul>
-                    <p class="rse-closing">ECS75 confirme ainsi son rôle d'acteur engagé en faveur d'un transport en ville plus responsable, au service des consommateurs, des commerçants et des collectivités.</p>
-                    <a href="contact.html" class="btn btn-primary btn-sm"><i class="fas fa-arrow-right"></i> Vérifier nos engagements</a>
+                    <p>Dans un contexte où les enjeux environnementaux, sociaux et économiques sont au cœur des préoccupations, ECS 75 s'engage dans une démarche de <strong>Responsabilité Sociétale des Entreprises (RSE)</strong>.</p>
+                    <p>Notre activité de transport implique une responsabilité directe sur l'environnement et la société. Nous formalisons ici nos engagements pour un développement durable, éthique et responsable.</p>
+                    <p class="rse-closing">Actuellement plus de 45 % de notre flotte circule en carburant propre (hybride, GNV, bio éthanol et électrique), un chiffre qui s'amplifie chaque année vers l'objectif d'une flotte 100 % verte en 2030.</p>
+                    <a href="#rse-engagements" class="btn btn-primary btn-sm"><i class="fas fa-arrow-down"></i> Découvrir nos engagements</a>
                 </div>
+            </div>
+
+            <!-- 2. Nos engagements RSE (tabs) -->
+            <div class="rse-engagements" id="rse-engagements" data-animate>
+                <div class="rse-engagements-header">
+                    <span class="section-label">Nos 4 engagements</span>
+                    <h3>Quatre piliers pour un transport durable</h3>
+                </div>
+                <div class="rse-tabs" role="tablist" aria-label="Engagements RSE">
+                    <button class="rse-tab active" role="tab" aria-selected="true" aria-controls="panel-env" id="tab-env" data-tab="env">
+                        <i class="fas fa-seedling"></i>
+                        <span class="rse-tab-num">2.1</span>
+                        <span class="rse-tab-label">Environnemental</span>
+                    </button>
+                    <button class="rse-tab" role="tab" aria-selected="false" aria-controls="panel-social" id="tab-social" data-tab="social">
+                        <i class="fas fa-users"></i>
+                        <span class="rse-tab-num">2.2</span>
+                        <span class="rse-tab-label">Social</span>
+                    </button>
+                    <button class="rse-tab" role="tab" aria-selected="false" aria-controls="panel-eco" id="tab-eco" data-tab="eco">
+                        <i class="fas fa-handshake"></i>
+                        <span class="rse-tab-num">2.3</span>
+                        <span class="rse-tab-label">Économique</span>
+                    </button>
+                    <button class="rse-tab" role="tab" aria-selected="false" aria-controls="panel-societal" id="tab-societal" data-tab="societal">
+                        <i class="fas fa-hands-holding-circle"></i>
+                        <span class="rse-tab-num">2.4</span>
+                        <span class="rse-tab-label">Sociétal</span>
+                    </button>
+                </div>
+
+                <div class="rse-panels">
+                    <!-- 2.1 Environnemental -->
+                    <div class="rse-panel active" id="panel-env" role="tabpanel" aria-labelledby="tab-env">
+                        <p class="rse-panel-lead">ECS 75 s'engage à réduire son impact environnemental.</p>
+                        <ul class="rse-commitments">
+                            <li><i class="fas fa-smog"></i> Réduction des émissions de CO₂</li>
+                            <li><i class="fas fa-route"></i> Optimisation des tournées (logistique intelligente)</li>
+                            <li><i class="fas fa-charging-station"></i> Renouvellement progressif de la flotte vers des véhicules moins polluants (électriques / hybrides)</li>
+                            <li><i class="fas fa-graduation-cap"></i> Formation des chauffeurs à l'éco-conduite</li>
+                            <li><i class="fas fa-gas-pump"></i> Réduction des consommations de carburant</li>
+                            <li><i class="fas fa-recycle"></i> Diminution des déchets (papier, emballages)</li>
+                        </ul>
+                        <div class="rse-objective"><i class="fas fa-bullseye"></i> <span>Objectif : <strong>−30 % d'émissions d'ici 5 ans</strong></span></div>
+                    </div>
+
+                    <!-- 2.2 Social -->
+                    <div class="rse-panel" id="panel-social" role="tabpanel" aria-labelledby="tab-social" hidden>
+                        <p class="rse-panel-lead">Nous plaçons l'humain au cœur de notre activité.</p>
+                        <ul class="rse-commitments">
+                            <li><i class="fas fa-helmet-safety"></i> Conditions de travail sécurisées pour les chauffeurs</li>
+                            <li><i class="fas fa-bed"></i> Respect des temps de repos et de la législation</li>
+                            <li><i class="fas fa-chalkboard-user"></i> Formation continue du personnel</li>
+                            <li><i class="fas fa-scale-balanced"></i> Égalité des chances et non-discrimination</li>
+                            <li><i class="fas fa-comments"></i> Dialogue social actif</li>
+                            <li><i class="fas fa-shield-halved"></i> Prévention des risques professionnels</li>
+                        </ul>
+                        <div class="rse-objective"><i class="fas fa-bullseye"></i> <span>Objectif : <strong>zéro accident</strong></span></div>
+                    </div>
+
+                    <!-- 2.3 Économique -->
+                    <div class="rse-panel" id="panel-eco" role="tabpanel" aria-labelledby="tab-eco" hidden>
+                        <p class="rse-panel-lead">Nous favorisons une croissance durable.</p>
+                        <ul class="rse-commitments">
+                            <li><i class="fas fa-handshake"></i> Relations transparentes avec clients et fournisseurs</li>
+                            <li><i class="fas fa-gavel"></i> Lutte contre la corruption et les pratiques abusives</li>
+                            <li><i class="fas fa-map-location-dot"></i> Développement de partenariats locaux</li>
+                            <li><i class="fas fa-award"></i> Qualité de service et satisfaction client</li>
+                        </ul>
+                        <div class="rse-objective"><i class="fas fa-bullseye"></i> <span>Objectif : <strong>fidélisation durable des clients</strong></span></div>
+                    </div>
+
+                    <!-- 2.4 Sociétal -->
+                    <div class="rse-panel" id="panel-societal" role="tabpanel" aria-labelledby="tab-societal" hidden>
+                        <p class="rse-panel-lead">ECS 75 contribue positivement à la société.</p>
+                        <ul class="rse-commitments">
+                            <li><i class="fas fa-people-group"></i> Participation à des actions locales</li>
+                            <li><i class="fas fa-hand-holding-heart"></i> Soutien à des initiatives solidaires</li>
+                            <li><i class="fas fa-city"></i> Réduction des nuisances en zones urbaines</li>
+                            <li><i class="fas fa-leaf"></i> Sensibilisation des équipes aux enjeux environnementaux</li>
+                        </ul>
+                        <div class="rse-objective rse-objective-muted"><i class="fas fa-compass"></i> <span>Une contribution positive durable aux territoires</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Actions concrètes -->
+            <div class="rse-actions" data-animate>
+                <div class="rse-engagements-header">
+                    <span class="section-label">Actions concrètes</span>
+                    <h3>Ce que nous mettons en place au quotidien</h3>
+                </div>
+                <div class="rse-actions-grid">
+                    <div class="rse-action-card">
+                        <i class="fas fa-calendar-check"></i>
+                        <p>Planification intelligente des livraisons</p>
+                    </div>
+                    <div class="rse-action-card">
+                        <i class="fas fa-satellite-dish"></i>
+                        <p>Suivi GPS pour réduire les trajets inutiles</p>
+                    </div>
+                    <div class="rse-action-card">
+                        <i class="fas fa-screwdriver-wrench"></i>
+                        <p>Maintenance régulière des véhicules</p>
+                    </div>
+                    <div class="rse-action-card">
+                        <i class="fas fa-file-signature"></i>
+                        <p>Digitalisation des documents (moins de papier)</p>
+                    </div>
+                    <div class="rse-action-card">
+                        <i class="fas fa-chalkboard-user"></i>
+                        <p>Sensibilisation interne (formations RSE)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. KPIs -->
+            <div class="rse-kpis" data-animate>
+                <div class="rse-engagements-header">
+                    <span class="section-label">Indicateurs de performance</span>
+                    <h3>Ce que nous mesurons</h3>
+                </div>
+                <div class="rse-kpi-grid">
+                    <div class="rse-kpi-item"><i class="fas fa-gas-pump"></i><span>Consommation moyenne de carburant</span></div>
+                    <div class="rse-kpi-item"><i class="fas fa-smog"></i><span>Émissions de CO₂ par km</span></div>
+                    <div class="rse-kpi-item"><i class="fas fa-user-shield"></i><span>Taux d'accidents du travail</span></div>
+                    <div class="rse-kpi-item"><i class="fas fa-face-smile"></i><span>Satisfaction client</span></div>
+                    <div class="rse-kpi-item"><i class="fas fa-graduation-cap"></i><span>Taux de formation des salariés</span></div>
+                </div>
+            </div>
+
+            <!-- 5. Gouvernance -->
+            <div class="rse-governance" data-animate>
+                <div class="rse-governance-inner">
+                    <div class="rse-governance-icon"><i class="fas fa-sitemap"></i></div>
+                    <div>
+                        <span class="section-label">Gouvernance et suivi</span>
+                        <h3>Notre engagement de direction</h3>
+                        <p>La direction d'ECS 75 s'engage à&nbsp;:</p>
+                        <ul class="rse-governance-list">
+                            <li><i class="fas fa-check"></i> Suivre les objectifs RSE chaque année</li>
+                            <li><i class="fas fa-check"></i> Mettre à jour les actions</li>
+                            <li><i class="fas fa-check"></i> Impliquer les collaborateurs</li>
+                            <li><i class="fas fa-check"></i> Communiquer de manière transparente</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conclusion -->
+            <div class="rse-conclusion" data-animate>
+                <h3>Un transport responsable est un transport&hellip;</h3>
+                <div class="rse-pillars">
+                    <div class="rse-pillar">
+                        <i class="fas fa-leaf"></i>
+                        <h4>Plus propre</h4>
+                    </div>
+                    <div class="rse-pillar">
+                        <i class="fas fa-heart"></i>
+                        <h4>Plus humain</h4>
+                    </div>
+                    <div class="rse-pillar">
+                        <i class="fas fa-rocket"></i>
+                        <h4>Plus performant</h4>
+                    </div>
+                </div>
+                <p>La démarche RSE d'ECS 75 s'inscrit dans une volonté durable d'amélioration continue.</p>
             </div>
         </div>
     </section>
