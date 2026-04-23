@@ -1866,12 +1866,16 @@ ul {
     align-items: center;
     gap: 14px;
     padding: 16px 18px;
-    background: rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.1);
     border-radius: var(--radius-md);
-    color: var(--color-white);
+    color: #ffffff;
     font-size: 0.95rem;
     line-height: 1.4;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.rse-kpi-item span {
+    color: #ffffff;
 }
 
 .rse-kpi-item i {
