@@ -16,6 +16,8 @@ const items = [
   // Directories
   "css",
   "assets",
+  "privacy-policy",
+  "support",
   // Config
   "staticwebapp.config.json",
 ];
